@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>271724441224-954ok91cdn1sd9a3rbbijmpvgs1l7u57.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.271724441224-954ok91cdn1sd9a3rbbijmpvgs1l7u57</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBRZzhp4c6nrPpn-0fegWSXJmrkJR4xEBc</string>
+	<key>GCM_SENDER_ID</key>
+	<string>271724441224</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.lnkwellness.spa.dev</string>
+	<key>PROJECT_ID</key>
+	<string>treat-dev-b3fac</string>
+	<key>STORAGE_BUCKET</key>
+	<string>treat-dev-b3fac.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:271724441224:ios:76de3500f08ca50b2a393d</string>
+</dict>
+</plist>
