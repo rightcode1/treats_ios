@@ -41,6 +41,8 @@ class RegisterViewController: BaseViewController {
   @IBOutlet weak var authCodeCheckView: UIView!
 
   @IBOutlet weak var recommendUserTextField: UITextField!
+  @IBOutlet weak var recommendWarnningView: UIView!
+  @IBOutlet weak var recommendCheckView: UIView!
 
   @IBOutlet weak var termsPrivacyOpenButton: UIButton!
   @IBOutlet weak var termsPrivacyButton: UIImageView!
@@ -60,6 +62,7 @@ class RegisterViewController: BaseViewController {
   var isSendAuthCode = false
   var timer = Timer()
   var authCodeTime = 180
+  var recommandCheck = false
 
   var isConfirmAuthCode = false
   var isCheckTermsPrivacy = false
@@ -86,6 +89,8 @@ class RegisterViewController: BaseViewController {
     nicknameCheckView.isHidden = true
     authCodeWarnningView.isHidden = true
     authCodeCheckView.isHidden = true
+    recommendWarnningView.isHidden = true
+    recommendCheckView.isHidden = true
 
     bindInput()
     bindOutput()
@@ -285,6 +290,29 @@ class RegisterViewController: BaseViewController {
         self.view.layoutIfNeeded()
       })
       .disposed(by: disposeBag)
+    
+    recommendUserTextField.rx.controlEvent(.editingDidEnd)
+      .bind(onNext: { [weak self] in
+        guard let self = self else { return }
+        let recommendUser = self.recommendUserTextField.text!
+        if !recommendUser.isEmpty {
+          self.checkRecommend()
+        } else {
+          self.recommandCheck = false
+          self.recommendWarnningView.isHidden = true
+          self.recommendCheckView.isHidden = true
+        }
+      })
+      .disposed(by: disposeBag)
+
+    recommendUserTextField.rx.controlEvent(.editingDidBegin)
+      .bind(onNext: { [weak self] in
+        guard let self = self else { return }
+        self.recommandCheck = false
+        self.recommendWarnningView.isHidden = true
+        self.recommendCheckView.isHidden = true
+      })
+      .disposed(by: disposeBag)
 
     nextButton.rx.tapGesture().when(.recognized)
       .bind(onNext: { [weak self] _ in
@@ -305,7 +333,7 @@ class RegisterViewController: BaseViewController {
       .disposed(by: disposeBag)
 
     Observable.combineLatest(emailCheck, passwordCheck, passwordRepeatCheck, nameCheck, nicknameCheck, phoneCheck, temrsPrivacyCheck)
-      .map({ $0 && $1 && $2 && $3 && $4 && $5 && $6 })
+      .map({ $0 && $1 && $2 && $3 && $4 && $5 && $6})
       .bind(onNext: { [weak self] b in
         guard let self = self else { return }
         self.nextButton.isUserInteractionEnabled = b
@@ -348,6 +376,23 @@ class RegisterViewController: BaseViewController {
         self.nicknameCheck.onNext(false)
         self.nicknameWarnningView.isHidden = false
         self.nicknameCheckView.isHidden = true
+      })
+      .disposed(by: disposeBag)
+  }
+  func checkRecommend() {
+    showHUD()
+    APIService.shared.authAPI.rx.request(.checkNickname(nickname: recommendUserTextField.text!))
+      .filterSuccessfulStatusCodes()
+      .subscribe(onSuccess: { response in
+        self.dismissHUD()
+        self.recommandCheck = false
+        self.recommendWarnningView.isHidden = false
+        self.recommendCheckView.isHidden = true
+      }, onFailure: { error in
+        self.dismissHUD()
+        self.recommandCheck = true
+        self.recommendWarnningView.isHidden = true
+        self.recommendCheckView.isHidden = false
       })
       .disposed(by: disposeBag)
   }
@@ -440,6 +485,9 @@ class RegisterViewController: BaseViewController {
     }
 
     if nicknameCheckView.isHidden {
+      return
+    }
+    if recommendUserTextField.text != "" && !recommandCheck{
       return
     }
 //

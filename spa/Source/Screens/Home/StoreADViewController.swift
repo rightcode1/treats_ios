@@ -36,14 +36,14 @@ class StoreADViewController: BaseViewController, StoreCellDelegate, UnlikeStoreP
     }
   }
   
-  func didSelect(_ cell: StoreCell) {
+  func didSelect(_ cell: StoreCell,_ date: Date) {
     print("!!!")
     guard let index = tableView.indexPath(for: cell)?.row else { return }
     let store = advertisement.stores?[index]
     let vc = storyboard?.instantiateViewController(withIdentifier: "storeDetail") as! StoreDetailViewController
     vc.storeId = store?.id
     vc.selectedDate = selectedDate
-    vc.selectedTime = selectedTime
+    vc.selectedTime = date
     vc.selectedBedCount = selectedBedCount
     navigationController?.pushViewController(vc, animated: true)
   }
@@ -117,7 +117,7 @@ extension StoreADViewController: UITableViewDataSource, UITableViewDelegate {
     
       let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! StoreCell
     let store = advertisement.stores?[indexPath.row]
-    var timeList = store?.schedules?.filter({ $0.bedCount >= selectedBedCount }).map({ Date.dateFromString("\(selectedDate.yyyyMMdd) \($0.time):00", dateFormat: .yyyyMMddHHmmss, timeZone: TimeZone(identifier: "KST")) }).sorted(by: { $0 < $1 }) ?? []//.getTimeList(bedCount: selectedBedCount)
+    var timeList = store?.schedules?.filter({ $0.bedCount >= selectedBedCount }).map({ Date.dateFromString("\(selectedDate.yyyyMMdd) \($0.time):00", dateFormat: .yyyyMMddHHmmss, timeZone: TimeZone(identifier: "GMT")) }).sorted(by: { $0 < $1 }) ?? []//.getTimeList(bedCount: selectedBedCount)
       timeList = timeList.filter({$0 >= Date()})
       cell.collectionView.isHidden = timeList.isEmpty
       cell.timeList = timeList

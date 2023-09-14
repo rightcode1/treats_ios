@@ -3,6 +3,7 @@ import Moya
 
 enum UserAPI {
   case getUserInfo
+  case checkUser(id: String,pwd: String)
   case patchUserInfo(param: PatchUserInfoRequest)
 
   case postUserSupport(data: PostUserSupportRequest)
@@ -23,6 +24,8 @@ extension UserAPI: TargetType {
     switch self {
     case .getUserInfo:
       return "/users"
+    case .checkUser:
+      return "/users/check"
     case .patchUserInfo:
       return "/users"
     case .postUserSupport:
@@ -43,6 +46,7 @@ extension UserAPI: TargetType {
     case .getUserInfo,
         .getUserSupportList,
         .getUserSupport,
+        .checkUser,
         .getPointList:
       return .get
     case .postUserSupport:
@@ -95,6 +99,7 @@ struct User: Codable {
   var couponCount: Int?
   var point: Int?
   var setting: Setting?
+  var accounts: [String]?
 
   struct Setting: Codable {
     var agreeMarketing: Bool

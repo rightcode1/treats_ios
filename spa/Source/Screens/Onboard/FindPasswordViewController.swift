@@ -51,13 +51,9 @@ class FindPasswordViewController: BaseViewController {
     nextButton.rx.tapGesture().when(.recognized)
       .bind(onNext: { [weak self] _ in
         guard let self = self else { return }
-        guard let phoneToken = self.phoneToken else { return }
-        let vc = self.storyboard?.instantiateViewController(withIdentifier: "resetPassword") as! ResetPasswordViewController
-        vc.isFromEditProfile = self.isFromEditProfile
-        vc.email = self.emailTextField.text!
-        vc.phone = self.phoneTextField.text!
-        vc.phoneToken = phoneToken
-        self.navigationController?.pushViewController(vc, animated: true)
+        self.checkUser()
+        
+        
       })
       .disposed(by: disposeBag)
   }
@@ -94,6 +90,32 @@ class FindPasswordViewController: BaseViewController {
       }, onFailure: { error in
         self.dismissHUD()
         self.callMSGDialog(message: error.serverMessage ?? "오류가 발생하였습니다\n\(error.localizedDescription)")
+      })
+      .disposed(by: disposeBag)
+  }
+  func checkUser() {
+    if !phoneTextField.text!.validatePhone() {
+      callMSGDialog(message: "정확한 휴대전화번호를 입력해주세요")
+      return
+    }
+    guard let codeToken = codeToken else {
+      callMSGDialog(message: "인증번호를 먼저 전송해주세요")
+      return
+    }
+    showHUD()
+    APIService.shared.userAPI.rx.request(.checkUser(id: emailTextField.text!, pwd: phoneTextField.text!))
+      .filterSuccessfulStatusCodes()
+      .subscribe(onSuccess: { response in
+        self.dismissHUD()
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "resetPassword") as! ResetPasswordViewController
+        vc.isFromEditProfile = self.isFromEditProfile
+        vc.email = self.emailTextField.text!
+        vc.phone = self.phoneTextField.text!
+        vc.phoneToken = self.phoneToken
+        self.navigationController?.pushViewController(vc, animated: true)
+      }, onFailure: { error in
+        self.dismissHUD()
+        self.callMSGDialog(message: "이메일 혹은 휴대폰번호를 확인해주세요.")
       })
       .disposed(by: disposeBag)
   }

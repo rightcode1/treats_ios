@@ -20,6 +20,9 @@ import iamport_ios
 import NaverThirdPartyLogin
 import GoogleSignIn
 import SocketIO
+import KakaoSDKShare
+import KakaoSDKTemplate
+import SafariServices
 
 
 @main
@@ -79,30 +82,64 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
   }
 
   func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
-//    if let components = URLComponents(url: url, resolvingAgainstBaseURL: true),
-//       let queryItems = components.queryItems {
-//      for queryItem in queryItems {
-//        if queryItem.name == "storeId", let storeId = queryItem.value {
-//          goStore(id: Int(storeId) ?? 0)
-//          }
-//          return true
-//        }
-//    }
-    var result = false
-    Iamport.shared.receivedURL(url)
-    print(result)
-    if AuthApi.isKakaoTalkLoginUrl(url) {
-        result = AuthController.handleOpenUrl(url: url)
+    if url.scheme == "treatspa" {
+      print("=======url:\(url)===========")
+      print("=======scheme:\(url.scheme)===========")
+      print("=======host:\(url.host)===========")
+      print("=======param:\(url.params()?.first)===========")
+      print("=======id:\(url.params()?.first?.value ?? 0)===========")
+      switch(url.host){
+      case "goReservation","goCancelReservation":
+        let id = url.params()?.urlQueryItems?.first?.value
+          if let tabBarViewController = window?.rootViewController as? MainTabBarViewController {
+            if let nav = tabBarViewController.viewControllers?[tabBarViewController.selectedIndex] as? UINavigationController {
+              let vc = UIStoryboard(name: "Mypage", bundle: nil).instantiateViewController(withIdentifier: "orderDetail") as! OrderDetailViewController
+              vc.id = Int(id ?? "0")
+              nav.pushViewController(vc, animated: true)
+            }
+          }
+        break
+      case "goRegistReview":
+        let id = url.params()?.urlQueryItems?.first?.value
+          if let tabBarViewController = window?.rootViewController as? MainTabBarViewController {
+            if let nav = tabBarViewController.viewControllers?[tabBarViewController.selectedIndex] as? UINavigationController {
+              let vc = UIStoryboard(name: "Mypage", bundle: nil).instantiateViewController(withIdentifier: "editReview") as! EditReviewViewController
+              vc.id = Int(id ?? "0")!
+              nav.pushViewController(vc, animated: true)
+            }
+          }
+        break
+      case "shareReservation":
+        let id = url.params()?.urlQueryItems?.first?.value
+          if let tabBarViewController = window?.rootViewController as? MainTabBarViewController {
+            if let nav = tabBarViewController.viewControllers?[tabBarViewController.selectedIndex] as? UINavigationController {
+              let vc = UIStoryboard(name: "Mypage", bundle: nil).instantiateViewController(withIdentifier: "orderDetail") as! OrderDetailViewController
+              vc.id = Int(id ?? "0")
+              vc.diffShare = true
+              nav.pushViewController(vc, animated: true)
+            }
+          }
+        break
+      default:
+        break
+      }
+      return true
+    }else{
+      var result = false
+      Iamport.shared.receivedURL(url)
+      print(result)
+      if AuthApi.isKakaoTalkLoginUrl(url) {
+          result = AuthController.handleOpenUrl(url: url)
+      }
+      if !result {
+        result = ((NaverThirdPartyLoginConnection.getSharedInstance()?.application(app, open: url, options: options)) != nil)
+      }
+      
+      if !result {
+        result = GIDSignIn.sharedInstance().handle(url)
+      }
+      return result
     }
-    if !result {
-      result = ((NaverThirdPartyLoginConnection.getSharedInstance()?.application(app, open: url, options: options)) != nil)
-    }
-    
-    if !result {
-      result = GIDSignIn.sharedInstance().handle(url)
-    }
-    
-    return result
   }
   func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
     log.info(userInfo)

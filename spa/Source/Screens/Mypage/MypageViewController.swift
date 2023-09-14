@@ -44,6 +44,9 @@ class MypageViewController: BaseViewController {
   
   @IBOutlet var homButton: UIButton!
   
+  @IBOutlet var privacyButton: UILabel!
+  @IBOutlet var useButton: UILabel!
+  
   let socketManager = SocketIOManager.sharedInstance
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -56,7 +59,7 @@ class MypageViewController: BaseViewController {
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     navigationController?.isNavigationBarHidden = true
-
+    print("!!!!\(DataHelperTool.accessToken)")
     if DataHelperTool.accessToken == nil {
       recentViewedStoreButton.isHidden = true
       myReviewButton.isHidden = true
@@ -187,6 +190,26 @@ class MypageViewController: BaseViewController {
         self.switchChatPush(isOn: b)
       })
       .disposed(by: disposeBag)
+    
+    privacyButton.rx.tapGesture().when(.recognized)
+      .bind(onNext: { [weak self] _ in
+          let vc = UIStoryboard(name: "Mypage", bundle: nil).instantiateViewController(withIdentifier: "urlCommon") as! UrlCommonViewController
+          vc.url = URL(string:"https://treatapp.notion.site/0238ed9d1b7a450a91ad21682f4e6e7b?pvs=4")
+          vc.titleName = "개인정보 처리방침"
+        self?.navigationController?.pushViewController(vc, animated: true)
+      })
+      .disposed(by: disposeBag)
+
+    
+    useButton.rx.tapGesture().when(.recognized)
+      .bind(onNext: { [weak self] _ in
+        let vc = UIStoryboard(name: "Mypage", bundle: nil).instantiateViewController(withIdentifier: "urlCommon") as! UrlCommonViewController
+        vc.url = URL(string: "https://treatapp.notion.site/13d057cc5c3142d88256eb0f1df4c68a?pvs=4")
+        vc.titleName = "이용약관"
+        self?.navigationController?.pushViewController(vc, animated: true)
+      })
+      .disposed(by: disposeBag)
+
   }
 
   func getUserInfo() {

@@ -22,20 +22,34 @@ class EditReviewViewController: BaseViewController {
 
   @IBOutlet weak var confirmButton: UIButton!
 
-  var order: OrderList!
+  var id : Int = 0
 
   var rating = 0
   var imageUrlList = [String]()
 
   override func viewDidLoad() {
     super.viewDidLoad()
-
-    storeImageView.kf.setImage(with: URL(string: order.storeTitleImage)!)
-    storeAddressLabel.text = order.storeAddress
-    storeNameLabel.text = order.storeName
-    productNameLabel.text = order.productName
-
+    getStoreDetail()
     bindInput()
+  }
+  
+  func getStoreDetail() {
+    APIService.shared.orderAPI.rx.request(.getOrderDetail(id: id))
+      .filterSuccessfulStatusCodes()
+      .map(Order.self)
+      .subscribe(onSuccess: { response in
+        self.storeImageView.kf.setImage(with: URL(string: response.store.titleImage)!)
+        self.storeAddressLabel.text = response.store.address
+        self.storeNameLabel.text = response.store.name
+        self.productNameLabel.text = response.product.name
+      }, onFailure: { error in
+        self.dismissHUD()
+        self.callOkActionMSGDialog(message: "오류가 발생하였습니다") {
+          self.backPress()
+        }
+        log.error(error)
+      })
+      .disposed(by: disposeBag)
   }
 
   func bindInput() {
@@ -59,7 +73,7 @@ class EditReviewViewController: BaseViewController {
       .bind(onNext: { [weak self] in
         guard let self = self else { return }
         let param = PostReviewRequest(
-          orderId: self.order.id,
+          orderId: self.id,
           description: self.descriptionTextView.text!,
           rating: self.rating,
           images: self.imageUrlList
@@ -90,6 +104,7 @@ class EditReviewViewController: BaseViewController {
     }
   }
 }
+
 
 extension EditReviewViewController: UICollectionViewDataSource, UICollectionViewDelegate {
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

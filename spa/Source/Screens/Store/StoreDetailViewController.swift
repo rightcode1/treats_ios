@@ -68,8 +68,6 @@ class StoreDetailViewController: BaseViewController{
   @IBOutlet var infoFooterView: UIView!
   @IBOutlet var footerLabel: UILabel!
 
-  @IBOutlet var watingButton: UIView!
-
   var storeId: Int!
   var store: Store?
   
@@ -116,6 +114,7 @@ class StoreDetailViewController: BaseViewController{
   var allImageList = [String]()
   var downloadCouponIdList = [Int]()
   var isRoom = false
+  var agreemenst: String = ""
   var safariViewController : SFSafariViewController? // to keep instance
 
   var noticeList = [StoreNotice]()
@@ -139,9 +138,8 @@ class StoreDetailViewController: BaseViewController{
     
     
     couponView.isHidden = true
-    tableView.tableHeaderView?.frame.size.height = UIScreen.main.bounds.width + 359 + 92 - 110
     tableView.tableFooterView?.frame.size.height = 0
-    
+    tableView.tableHeaderView?.frame.size.height = UIScreen.main.bounds.width + 383 - 110
     couponButtonIcon.isHidden = true
     
     tableView.register(UINib(nibName: "ProductCategoryCell", bundle: nil), forCellReuseIdentifier: "productCategoryCell")
@@ -155,6 +153,7 @@ class StoreDetailViewController: BaseViewController{
     selectedBedCountLabel.text = "\(selectedBedCount)명"
     selectedTimeLabel.text = selectedTime.ahmm
     
+    
     bindInput()
   }
   
@@ -162,6 +161,7 @@ class StoreDetailViewController: BaseViewController{
     super.viewWillAppear(animated)
     navigationController?.isNavigationBarHidden = true
     getStoreDetail()
+    getAgreements()
   }
   
   func bindInput() {
@@ -203,6 +203,7 @@ class StoreDetailViewController: BaseViewController{
         vc.delegate = self
         vc.selectedDate = self.selectedDate
         vc.selectedBedCount = self.selectedBedCount
+        vc.storeId = self.storeId
         vc.selectedTime = self.selectedTime
         self.present(vc, animated: true)
       })
@@ -215,16 +216,6 @@ class StoreDetailViewController: BaseViewController{
         vc.couponList = self.store?.coupons ?? []
         vc.parentVC = self
         self.present(vc, animated: false)
-      })
-      .disposed(by: disposeBag)
-
-    watingButton.rx.tapGesture().when(.recognized)
-      .bind(onNext: { [weak self] _ in
-        guard let self = self else { return }
-        let vc = self.storyboard?.instantiateViewController(withIdentifier: "selectWatingInfo") as! SelectWatingInfoViewController
-        vc.storeId = self.storeId
-        vc.selectDelegate = self
-        self.present(vc, animated: true)
       })
       .disposed(by: disposeBag)
     
@@ -332,14 +323,13 @@ class StoreDetailViewController: BaseViewController{
         
         if (response.coupons ?? []).isEmpty {
           self.couponView.isHidden = true
-          self.tableView.tableHeaderView?.frame.size.height = UIScreen.main.bounds.width + 359 - 110 + 92
+          self.tableView.tableHeaderView?.frame.size.height = UIScreen.main.bounds.width + 385 - 110
         } else {
           self.couponView.isHidden = false
           self.couponButtonIcon.isHidden = false
-          self.tableView.tableHeaderView?.frame.size.height = UIScreen.main.bounds.width + 359 + 92
+          self.tableView.tableHeaderView?.frame.size.height = UIScreen.main.bounds.width + 385
         }
         self.downloadCouponIdList = response.downloadCouponIdList ?? []
-        
         self.dismissHUD()
         self.store = response
         self.liked = response.liked ?? false
@@ -397,6 +387,7 @@ class StoreDetailViewController: BaseViewController{
       })
       .disposed(by: disposeBag)
   }
+  
   func getSchedule() {
     APIService.shared.storeAPI.rx.request(.getStoreSchedule(storeId: storeId, date: selectedDate.yyyyMMdd))
       .filterSuccessfulStatusCodes()
@@ -405,27 +396,33 @@ class StoreDetailViewController: BaseViewController{
         self.bedList = response.data
         self.timeList = []
         
-        var date = Calendar.current.date(from: DateComponents(year: self.selectedDate.year, month: self.selectedDate.month, day: self.selectedDate.day, hour: 0, minute: 0))!
-        let endDate = Calendar.current.date(byAdding: .day, value: 1, to: date)!
+        let calendar = Calendar(identifier: .gregorian)
+        let currentDate = Date() // 현재 로컬 시간을 가져옵니다.
+
+        var date = calendar.date(from: DateComponents(year: self.selectedDate.year, month: self.selectedDate.month, day: self.selectedDate.day, hour: 0, minute: 0))!
+        let endDate = calendar.date(byAdding: .day, value: 1, to: date)!
+
         var dateList = [Date]()
         while (date < endDate) {
-          dateList.append(date)
-          date.addTimeInterval(60 * 30)
+            date.addTimeInterval(60 * 30)
+            
+            // 시작 날짜가 현재 로컬 시간 이후인 경우에만 추가
+            if date >= currentDate {
+                dateList.append(date)
+            }
         }
-        
+        print(self.selectedTime)
         self.timeList = dateList.map({ ReservationTime(date: $0, bedCount: 0) })
+        self.timeList = self.timeList.filter({$0.date >= self.selectedTime})
         
         response.data.forEach { bed in
           (bed.schedules ?? []).forEach { schedule in
             let date = Date.dateFromISO8601String(schedule.date)!
             if let index = self.timeList.firstIndex(where: { $0.date.isSameTime(date) }) {
               self.timeList[index].bedCount += 1
-            } else {
-              self.timeList.append(ReservationTime(date: date, bedCount: 1))
             }
           }
         }
-        
         
         //        self.timeList = self.timeList.filter({ $0.date > Date() })
         self.timeList.enumerated().forEach({ (index, item) in
@@ -434,7 +431,10 @@ class StoreDetailViewController: BaseViewController{
           }
         })
         self.timeList.sort(by: { $0.date < $1.date})
-        self.timeList = self.timeList.filter{$0.bedCount >= self.selectedBedCount}
+        
+        if let index = self.timeList.firstIndex(where: { $0.date == self.selectedTime }) {
+          self.selectedResevationTimeIndex = index
+        }
         self.scheduleCollectionView.reloadData()
         self.tableView.reloadData()
         
@@ -509,6 +509,16 @@ class StoreDetailViewController: BaseViewController{
       })
       .disposed(by: disposeBag)
   }
+  func getAgreements() {
+    APIService.shared.commonAPI.rx.request(.getAgreements)
+      .map(AgreementsResponse.self)
+      .subscribe(onSuccess: { response in
+        self.agreemenst = response.contents
+      }, onFailure: { error in
+        log.error(error)
+      })
+      .disposed(by: disposeBag)
+  }
 
   func getNoticeList(_ refresh: Bool = true) {
     
@@ -524,7 +534,7 @@ class StoreDetailViewController: BaseViewController{
     } else if self.selectedMenuIndex == 1 {
       self.infoFooterView.isHidden = false
       self.emptyImageView.isHidden = true
-      self.footerLabel.text = store?.etc
+      self.footerLabel.text = agreemenst
       self.tableView.tableFooterView?.frame.size.height = 250
     } else if self.selectedMenuIndex == 2 {
       self.infoFooterView.isHidden = true
@@ -749,7 +759,8 @@ extension StoreDetailViewController: UITableViewDataSource, UITableViewDelegate 
           return cell
         } else if indexPath.row == 1 {
           let cell = tableView.dequeueReusableCell(withIdentifier: "reviewTitle", for: indexPath)
-          (cell.viewWithTag(1) as! UILabel).text = totalReviewCount.formattedDecimalString()
+          (cell.viewWithTag(1) as! UILabel).text = "리뷰 (\(totalReviewCount.formattedDecimalString()))"
+          (cell.viewWithTag(2) as! UILabel).text = String(format: "%.1f", store?.rating ?? 0.0)
           return cell
         } else {
           let cell = tableView.dequeueReusableCell(withIdentifier: "reviewCell", for: indexPath) as! StoreReviewCell
@@ -894,7 +905,7 @@ extension StoreDetailViewController: FSPagerViewDataSource, FSPagerViewDelegate 
 
   func pagerView(_ pagerView: FSPagerView, cellForItemAt index: Int) -> FSPagerViewCell {
     let cell = pagerView.dequeueReusableCell(withReuseIdentifier: "cell", at: index)
-
+    
     cell.imageView?.contentMode = .scaleAspectFill
     cell.imageView?.kf.setImage(with: URL(string: imageList[index])!)
 
@@ -931,6 +942,7 @@ extension StoreDetailViewController: UICollectionViewDataSource, UICollectionVie
       let disableBolderColor = UIColor(hex: "#cbcbcb")
       
       (cell.viewWithTag(1) as! UILabel).text = timeList[indexPath.item].date.ahhmm
+      
       if time.bedCount < selectedBedCount {
         cell.borderColor = disableColor
         (cell.viewWithTag(1) as! UILabel).textColor = .white
@@ -954,7 +966,14 @@ extension StoreDetailViewController: UICollectionViewDataSource, UICollectionVie
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     if collectionView == scheduleCollectionView {
       if timeList[indexPath.item].bedCount < selectedBedCount {
-        return
+        print(timeList[indexPath.row])
+        selectedTime = timeList[indexPath.row].date
+        self.selectedDate = timeList[indexPath.row].date
+        let vc = UIStoryboard(name: "Mypage", bundle: nil).instantiateViewController(withIdentifier: "CommonPopup") as! CommonDialog
+        vc.titleString = "해당 시간은 예약이 불가능합니다.\n예약 취소시 대기 알림을 받으시겠습니까?"
+        vc.yesTitle = "대기 예약"
+          vc.delegate = self
+          self.present(vc, animated: false)
       }
       if selectedResevationTimeIndex != indexPath.item {
         selectedResevationTimeIndex = indexPath.item
@@ -977,9 +996,7 @@ extension StoreDetailViewController: UICollectionViewDataSource, UICollectionVie
       tableView.reloadData()
     } else if collectionView == menuCollectionView {
       selectedMenuIndex = indexPath.item
-
       if selectedMenuIndex == 2 {
-        print("!!!")
         getReviewList(true)
       } else {
         setFooterHeight()
@@ -1011,7 +1028,6 @@ extension StoreDetailViewController: SelectStoreInfoDelegate {
     selectedDateLabel.text = selectedDate.MMddEKR
     selectedBedCountLabel.text = "\(selectedBedCount)명"
     selectedTimeLabel.text = selectedTime.ahmm
-
     getSchedule()
   }
 }
@@ -1127,8 +1143,6 @@ extension StoreDetailViewController : KakaoSharePopupDelegate{
 }
 extension StoreDetailViewController : selectWaitProtocol{
   func selectWait() {
-    let vc = self.storyboard?.instantiateViewController(withIdentifier: "waitComplete") as! WatiCompleteViewController
-    self.navigationController?.pushViewController(vc, animated: true)
   }
 }
 extension StoreDetailViewController : CallPhoneDelgate{
@@ -1142,3 +1156,27 @@ extension StoreDetailViewController : CallPhoneDelgate{
   
   
 }
+extension StoreDetailViewController: CommonDialogDelegate{
+  func didUnlikeButtonTapped(diff: String) {
+    let param = PostWatingRequest(
+      date: self.selectedDate.yyyyMMdd,
+      time: self.selectedTime.HHmm,
+      count: self.selectedBedCount,
+      storeId: self.storeId
+    )
+    self.showHUD()
+    APIService.shared.storeAPI.rx.request(.postWating(param: param))
+      .filterSuccessfulStatusCodes()
+      .subscribe(onSuccess: { response in
+        self.dismissHUD()
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "waitComplete") as! WatiCompleteViewController
+        self.navigationController?.pushViewController(vc, animated: true)
+      }, onFailure: { error in
+        self.dismissHUD()
+      }, onDisposed: {
+
+      })
+      .disposed(by: self.disposeBag)
+  }
+}
+  

@@ -118,8 +118,8 @@ extension CouponViewController: UITableViewDataSource, UITableViewDelegate {
       cell.couponImageView.image = UIImage(named: "couponExpired")
     }
 
-    cell.priceLabel.text = coupon.contents
-    cell.nameLabel.text = coupon.name
+    cell.priceLabel.text = coupon.name
+    cell.nameLabel.text = coupon.contents
     let startDate = Date.dateFromISO8601String(coupon.startDate)!
     let endDate = Date.dateFromISO8601String(coupon.endDate)!
     cell.periodLabel.text = "\(startDate.yyyyMMddDot) ~ \(endDate.yyyyMMddDot)"

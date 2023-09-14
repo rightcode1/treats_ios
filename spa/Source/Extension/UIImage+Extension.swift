@@ -44,12 +44,10 @@ extension UIImage{
   }
 
   func resizeToWidth(newWidth: CGFloat) -> UIImage {
-
     // 300 보다 작으면 리사이즈 필요 없음
 //    if self.size.width < 750 {
 //      return self
 //    }
-
     let scale = newWidth / self.size.width
     let newHeight = self.size.height * scale
     //      UIGraphicsBeginImageContext(CGSize(width: newWidth, height: newHeight))
@@ -57,7 +55,6 @@ extension UIImage{
     self.draw(in: CGRect(x: 0, y: 0, width: newWidth, height: newHeight))
     let newImage = UIGraphicsGetImageFromCurrentImageContext()
     UIGraphicsEndImageContext()
-
     return newImage!
   }
 

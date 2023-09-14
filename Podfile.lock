@@ -272,6 +272,7 @@ PODS:
     - Starscream (~> 4.0)
   - Starscream (4.0.4)
   - SwiftyGif (5.4.4)
+  - SwiftyJSON (5.0.1)
   - Swinject (2.8.3)
   - Then (3.0.0)
 
@@ -312,6 +313,7 @@ DEPENDENCIES:
   - RxKeyboard
   - RxSwift
   - Socket.IO-Client-Swift
+  - SwiftyJSON
   - Then
 
 SPEC REPOS:
@@ -373,6 +375,7 @@ SPEC REPOS:
     - Socket.IO-Client-Swift
     - Starscream
     - SwiftyGif
+    - SwiftyJSON
     - Swinject
     - Then
 
@@ -434,9 +437,10 @@ SPEC CHECKSUMS:
   Socket.IO-Client-Swift: c116d6dc9fd6be9c259bacfe143f8725bce7d79e
   Starscream: 5178aed56b316f13fa3bc55694e583d35dd414d9
   SwiftyGif: 93a1cc87bf3a51916001cf8f3d63835fb64c819f
+  SwiftyJSON: 2f33a42c6fbc52764d96f13368585094bfd8aa5e
   Swinject: 893c9a543000ac2f10ee4cbaf0933c6992c935d5
   Then: 844265ae87834bbe1147d91d5d41a404da2ec27d
 
-PODFILE CHECKSUM: 077f5f0def4e3486dcc0cde1a52e7a43b9237008
+PODFILE CHECKSUM: ea75f5cf018ae2ec1148c2f7a1e4ccd185cda16b
 
 COCOAPODS: 1.11.3

@@ -226,8 +226,9 @@ extension StoreViewController: UITableViewDataSource, UITableViewDelegate {
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! StoreCell
     let store = storeList[indexPath.row]
-    var timeList = store.schedules?.filter({ $0.bedCount >= selectedBedCount }).map({ Date.dateFromString("\(selectedDate.yyyyMMdd) \($0.time):00", dateFormat: .yyyyMMddHHmmss, timeZone: TimeZone(identifier: "KST")) }).sorted(by: { $0 < $1 }) ?? []//.getTimeList(bedCount: selectedBedCount)
-    timeList = timeList.filter({$0 >= Date()})
+    var timeList = store.schedules?.filter({ $0.bedCount >= selectedBedCount }).map({ Date.dateFromString("\(selectedDate.yyyyMMdd) \($0.time):00", dateFormat: .yyyyMMddHHmmss, timeZone: TimeZone(identifier: "GMT")) }).sorted(by: { $0 < $1 }) ?? []
+    //.getTimeList(bedCount: selectedBedCount)
+    timeList = timeList.filter({$0 >= selectedTime})
     cell.collectionView.isHidden = timeList.isEmpty
     cell.timeList = timeList
     cell.selectedDate = selectedDate
@@ -301,14 +302,15 @@ extension StoreViewController: SelectStoreInfoDelegate {
 }
 
 extension StoreViewController: StoreCellDelegate {
-  func didSelect(_ cell: StoreCell) {
+  func didSelect(_ cell: StoreCell, _ date: Date) {
     print("!!!")
+    print(date)
     guard let index = tableView.indexPath(for: cell)?.row else { return }
     let store = storeList[index]
     let vc = storyboard?.instantiateViewController(withIdentifier: "storeDetail") as! StoreDetailViewController
     vc.storeId = store.id
     vc.selectedDate = selectedDate
-    vc.selectedTime = selectedTime
+    vc.selectedTime = date
     vc.selectedCoupleRoom = selectedCoupleRoom
     vc.selectedBedCount = selectedBedCount
     navigationController?.pushViewController(vc, animated: true)

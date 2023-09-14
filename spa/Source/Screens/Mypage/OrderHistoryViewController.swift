@@ -10,49 +10,55 @@ import RxSwift
 
 class OrderHistoryViewController: BaseViewController {
   @IBOutlet weak var tableView: UITableView!
-
+  
   @IBOutlet var purchaseView: UIView!
   @IBOutlet var cancelView: UIView!
+  @IBOutlet var waitingView: UIView!
   @IBOutlet var orderStatusListView: UIView!
   @IBOutlet var orderStatusCollectionView: UICollectionView!
   @IBOutlet var emptyIcon: UIImageView!
-
+  
   var orderList = [OrderList]()
-
+  
   var selectedOrderStatus = BehaviorSubject<Order.Status?>(value: nil)
   let orderStatusList: [Order.Status?] = [nil, .noReady, .ready, .used]
-
+  
   var start = 0
-
+  
   override func viewDidLoad() {
     super.viewDidLoad()
-
+    
     tableView.tableFooterView?.frame.size.height = 0
-
+    
     bindInput()
     bindOutput()
   }
-
+  
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-
     getOrderList(refresh: true)
   }
-
+  
   func bindInput() {
     purchaseView.rx.tapGesture().when(.recognized)
       .bind(onNext: { [weak self] _ in
         self?.selectedOrderStatus.onNext(nil)
       })
       .disposed(by: disposeBag)
-
+    
     cancelView.rx.tapGesture().when(.recognized)
       .bind(onNext: { [weak self] _ in
         self?.selectedOrderStatus.onNext(.cancelled)
       })
       .disposed(by: disposeBag)
+    
+    waitingView.rx.tapGesture().when(.recognized)
+      .bind(onNext: { [weak self] _ in
+        self?.selectedOrderStatus.onNext(.wait)
+      })
+      .disposed(by: disposeBag)
   }
-
+  
   func bindOutput() {
     selectedOrderStatus.distinctUntilChanged().bind { [weak self] orderStatus in
       guard let self = self else { return }
@@ -63,15 +69,25 @@ class OrderHistoryViewController: BaseViewController {
         self.purchaseView.viewWithTag(2)?.isHidden = false
         (self.cancelView.viewWithTag(1) as! UILabel).textColor = UIColor(hex: "#666666")
         self.cancelView.viewWithTag(2)?.isHidden = true
+        (self.waitingView.viewWithTag(1) as! UILabel).textColor = UIColor(hex: "#666666")
+        self.waitingView.viewWithTag(2)?.isHidden = true
         self.orderStatusListView.isHidden = false
+        self.orderStatusCollectionView.reloadData()
+        self.getOrderList(refresh: true)
       case .noReady:
         self.emptyIcon.image = UIImage(named: "emptyOrder")
+        self.orderStatusCollectionView.reloadData()
+        self.getOrderList(refresh: true)
         break
       case .ready:
         self.emptyIcon.image = UIImage(named: "emptyOrder")
+        self.orderStatusCollectionView.reloadData()
+        self.getOrderList(refresh: true)
         break
       case .used:
         self.emptyIcon.image = UIImage(named: "emptyOrder")
+        self.orderStatusCollectionView.reloadData()
+        self.getOrderList(refresh: true)
         break
       case .cancelled:
         self.emptyIcon.image = UIImage(named: "emptyCancelOrder")
@@ -79,14 +95,48 @@ class OrderHistoryViewController: BaseViewController {
         self.purchaseView.viewWithTag(2)?.isHidden = true
         (self.cancelView.viewWithTag(1) as! UILabel).textColor = .black
         self.cancelView.viewWithTag(2)?.isHidden = false
+        (self.waitingView.viewWithTag(1) as! UILabel).textColor = UIColor(hex: "#666666")
+        self.waitingView.viewWithTag(2)?.isHidden = true
         self.orderStatusListView.isHidden = true
+        self.orderStatusCollectionView.reloadData()
+        self.getOrderList(refresh: true)
+      case .wait:
+        self.emptyIcon.image = UIImage(named: "emptyOrder")
+        (self.purchaseView.viewWithTag(1) as! UILabel).textColor = UIColor(hex: "#666666")
+        self.purchaseView.viewWithTag(2)?.isHidden = true
+        (self.cancelView.viewWithTag(1) as! UILabel).textColor = UIColor(hex: "#666666")
+        self.cancelView.viewWithTag(2)?.isHidden = true
+        (self.waitingView.viewWithTag(1) as! UILabel).textColor = .black
+        self.waitingView.viewWithTag(2)?.isHidden = false
+        self.orderStatusListView.isHidden = true
+        self.orderStatusCollectionView.reloadData()
+        self.getWaiting(refresh: true)
+        break
+      case .send:
+        self.emptyIcon.image = UIImage(named: "emptyOrder")
+        self.orderStatusCollectionView.reloadData()
+        self.getWaiting(refresh: true)
+        break
       }
-      self.orderStatusCollectionView.reloadData()
-      self.getOrderList(refresh: true)
     }
     .disposed(by: disposeBag)
   }
-
+  func getWaiting(refresh: Bool) {
+    let param = GetOrderListReqeust(start: start, perPage: 20)
+    APIService.shared.orderAPI.rx.request(.getWaitList(param: param))
+      .map(ListResponse<OrderList>.self)
+      .subscribe(onSuccess: { response in
+        if refresh {
+          self.tableView.tableFooterView?.frame.size.height = response.data.isEmpty ? self.tableView.frame.height - 100 : 0
+        }
+        self.orderList = response.data
+        self.tableView.reloadData()
+      }, onFailure: { error in
+        
+      })
+      .disposed(by: disposeBag)
+  }
+  
   func getOrderList(refresh: Bool) {
     if refresh {
       start = 0
@@ -145,7 +195,7 @@ extension OrderHistoryViewController: UITableViewDataSource, UITableViewDelegate
     }
 
 
-    if !order.reviewed && order.status == .used {
+    if !(order.reviewed ?? false) && order.status == .used {
       cell.reviewView.isHidden = false
     } else {
       cell.reviewView.isHidden = true
@@ -178,7 +228,7 @@ extension OrderHistoryViewController: OrderCellDelegate {
   func didReviewButtonTapped(_ cell: UITableViewCell) {
     guard let index = tableView.indexPath(for: cell)?.row else { return }
     let vc = storyboard?.instantiateViewController(withIdentifier: "editReview") as! EditReviewViewController
-    vc.order = orderList[index]
+    vc.id = orderList[index].id ?? 0
     navigationController?.pushViewController(vc, animated: true)
   }
 }

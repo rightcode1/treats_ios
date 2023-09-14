@@ -7,6 +7,7 @@ enum CommonAPI {
   case uploadFile(URL, Data)
   case downloadImage(path: String)
   case getMagazineList
+  case getAgreements
   case getJournalList(param: ListRequest)
   case getJournalDetail(id: Int)
   case getNoticeList(param: ListRequest)
@@ -25,6 +26,8 @@ extension CommonAPI: TargetType {
 
   var path: String {
     switch self {
+    case .getAgreements:
+      return "/agreements"
     case .getPresignedURL:
       return "/files/upload"
     case .postFile:
@@ -50,6 +53,7 @@ extension CommonAPI: TargetType {
     switch self {
     case .getPresignedURL,
         .downloadImage,
+        .getAgreements,
         .getMagazineList,
         .getJournalList,
         .getJournalDetail,

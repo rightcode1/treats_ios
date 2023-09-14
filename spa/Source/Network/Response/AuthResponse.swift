@@ -50,3 +50,9 @@ struct FindEmailResponse: Decodable {
 struct CheckEmailResponse: Decodable {
   var message: String
 }
+
+
+struct AgreementsResponse: Decodable {
+  var title: String
+  var contents: String
+}

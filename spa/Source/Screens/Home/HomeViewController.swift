@@ -30,6 +30,8 @@ class HomeViewController: BaseViewController {
   @IBOutlet var allPlaceButton: UIButton!
   @IBOutlet var categoryViewList: [UIView]!
   @IBOutlet var searchViewButton: UIView!
+  @IBOutlet var privacyButton: UILabel!
+  @IBOutlet var useButton: UILabel!
   
   var bannerList = [Advertisement]()
   var magazineList = [Journal]()
@@ -136,6 +138,25 @@ class HomeViewController: BaseViewController {
         self.tabBarController?.selectedIndex = 1
       })
       .disposed(by: disposeBag)
+    
+    privacyButton.rx.tapGesture().when(.recognized)
+      .bind(onNext: { [weak self] _ in
+          let vc = UIStoryboard(name: "Mypage", bundle: nil).instantiateViewController(withIdentifier: "urlCommon") as! UrlCommonViewController
+          vc.url = URL(string:"https://treatapp.notion.site/0238ed9d1b7a450a91ad21682f4e6e7b?pvs=4")
+          vc.titleName = "개인정보 처리방침"
+        self?.navigationController?.pushViewController(vc, animated: true)
+      })
+      .disposed(by: disposeBag)
+
+    
+    useButton.rx.tapGesture().when(.recognized)
+      .bind(onNext: { [weak self] _ in
+        let vc = UIStoryboard(name: "Mypage", bundle: nil).instantiateViewController(withIdentifier: "urlCommon") as! UrlCommonViewController
+        vc.url = URL(string: "https://treatapp.notion.site/13d057cc5c3142d88256eb0f1df4c68a?pvs=4")
+        vc.titleName = "이용약관"
+        self?.navigationController?.pushViewController(vc, animated: true)
+      })
+      .disposed(by: disposeBag)
   }
 
   func getHomeInfo() {
@@ -187,7 +208,7 @@ class HomeViewController: BaseViewController {
     categoryList.enumerated().forEach { (index, category) in
       if categoryViewList.indices.contains(index) {
         let view = categoryViewList[index]
-        (view.viewWithTag(1) as! UIImageView).kf.setImage(with: URL(string: category.image!)!)
+        (view.viewWithTag(1) as! UIImageView).kf.setImage(with: URL(string: category.image!))
         (view.viewWithTag(2) as! UIButton).addTarget(self, action: #selector(didCategoryButtonTapped(_:)), for: .touchUpInside)
       }
     }
@@ -274,21 +295,27 @@ extension HomeViewController: FSPagerViewDataSource, FSPagerViewDelegate {
 
   func pagerView(_ pagerView: FSPagerView, didSelectItemAt index: Int) {
     let banner = bannerList[index]
-
-    switch banner.division {
-    case .url:
-      let vc = storyboard?.instantiateViewController(withIdentifier: "urlAD") as! UrlADViewController
-      vc.advertisement = banner
-      navigationController?.pushViewController(vc, animated: true)
-    case .image:
-      let vc = storyboard?.instantiateViewController(withIdentifier: "imageAD") as! ImageADViewController
-      vc.advertisement = banner
-      navigationController?.pushViewController(vc, animated: true)
-    case .store:
-      let vc = storyboard?.instantiateViewController(withIdentifier: "storeAD") as! StoreADViewController
-      vc.advertisement = banner
-      navigationController?.pushViewController(vc, animated: true)
-    }
+    APIService.shared.homeAPI.rx.request(.getAdvertisement(id: banner.id))
+      .filterSuccessfulStatusCodes()
+      .subscribe(onSuccess: { _ in
+        switch banner.division {
+        case .url:
+          let vc = self.storyboard?.instantiateViewController(withIdentifier: "urlAD") as! UrlADViewController
+          vc.advertisement = banner
+          self.navigationController?.pushViewController(vc, animated: true)
+        case .image:
+          let vc = self.storyboard?.instantiateViewController(withIdentifier: "imageAD") as! ImageADViewController
+          vc.advertisement = banner
+          self.navigationController?.pushViewController(vc, animated: true)
+        case .store:
+          let vc = self.storyboard?.instantiateViewController(withIdentifier: "storeAD") as! StoreADViewController
+          vc.advertisement = banner
+          self.navigationController?.pushViewController(vc, animated: true)
+        }
+      }, onFailure: { error in
+        log.error(error)
+      })
+      .disposed(by: disposeBag)
   }
 
   func pagerViewDidScroll(_ pagerView: FSPagerView) {
@@ -350,7 +377,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     } else if collectionView == reservationableStoreCollectionView {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ReservationableStoreCell
         let store = reservationableStoreList[indexPath.row]
-        var timeList = store.schedules?.filter({ $0.bedCount >= selectedBedCount }).map({ Date.dateFromString("\(selectedDate.yyyyMMdd) \($0.time):00", dateFormat: .yyyyMMddHHmmss, timeZone: TimeZone(identifier: "KST")) }).sorted(by: { $0 < $1 }) ?? []
+        var timeList = store.schedules?.filter({ $0.bedCount >= selectedBedCount }).map({ Date.dateFromString("\(selectedDate.yyyyMMdd) \($0.time):00", dateFormat: .yyyyMMddHHmmss, timeZone: TimeZone(identifier: "GMT")) }).sorted(by: { $0 < $1 }) ?? []
         timeList = timeList.filter({$0 >= Date()})
         cell.collectionView.isHidden = timeList.isEmpty
         cell.timeList = timeList
@@ -377,12 +404,13 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
       (cell.viewWithTag(2) as! UILabel).text = benefit.name
       (cell.viewWithTag(3) as! UILabel).text = benefit.price
       (cell.viewWithTag(4) as! UILabel).text = benefit.percent
+      (cell.viewWithTag(5) as! UILabel).text = benefit.description
 
       if indexPath.row + 1 == 4 {
-        cell.viewWithTag(5)?.isHidden = false
-        (cell.viewWithTag(6) as! UIButton).addTarget(self, action: #selector(benefitAllButtonTapped(_:)), for: .touchUpInside)
+        cell.viewWithTag(6)?.isHidden = false
+        (cell.viewWithTag(7) as! UIButton).addTarget(self, action: #selector(benefitAllButtonTapped(_:)), for: .touchUpInside)
       }else{
-        cell.viewWithTag(5)?.isHidden = true
+        cell.viewWithTag(6)?.isHidden = true
       }
       return cell
     } else if collectionView == aroundMenuCollectionView {
@@ -462,21 +490,27 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
 //        navigationController?.pushViewController(vc, animated: true)
     } else if collectionView == benefitCollectionView {
       let banner = benefitList[indexPath.row]
-
-        switch banner.division {
-        case .url:
-          let vc = storyboard?.instantiateViewController(withIdentifier: "urlAD") as! UrlADViewController
-          vc.advertisement = banner
-          navigationController?.pushViewController(vc, animated: true)
-        case .image:
-          let vc = storyboard?.instantiateViewController(withIdentifier: "imageAD") as! ImageADViewController
-          vc.advertisement = banner
-          navigationController?.pushViewController(vc, animated: true)
-        case .store:
-          let vc = storyboard?.instantiateViewController(withIdentifier: "storeAD") as! StoreADViewController
-          vc.advertisement = banner
-          navigationController?.pushViewController(vc, animated: true)
-        }
+      APIService.shared.homeAPI.rx.request(.getAdvertisement(id: banner.id))
+        .filterSuccessfulStatusCodes()
+        .subscribe(onSuccess: { _ in
+          switch banner.division {
+          case .url:
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "urlAD") as! UrlADViewController
+            vc.advertisement = banner
+            self.navigationController?.pushViewController(vc, animated: true)
+          case .image:
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "imageAD") as! ImageADViewController
+            vc.advertisement = banner
+            self.navigationController?.pushViewController(vc, animated: true)
+          case .store:
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "storeAD") as! StoreADViewController
+            vc.advertisement = banner
+            self.navigationController?.pushViewController(vc, animated: true)
+          }
+        }, onFailure: { error in
+          log.error(error)
+        })
+        .disposed(by: disposeBag)
       
     } else if collectionView == aroundMenuCollectionView {
       selectedAroundMenuIndex = indexPath.item
@@ -533,20 +567,27 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
 
 extension HomeViewController: PopupADDelegate {
   func didSelectAdvertisement(_ advertisement: Advertisement) {
-    switch advertisement.division {
-    case .url:
-      let vc = storyboard?.instantiateViewController(withIdentifier: "urlAD") as! UrlADViewController
-      vc.advertisement = advertisement
-      navigationController?.pushViewController(vc, animated: true)
-    case .image:
-      let vc = storyboard?.instantiateViewController(withIdentifier: "imageAD") as! ImageADViewController
-      vc.advertisement = advertisement
-      navigationController?.pushViewController(vc, animated: true)
-    case .store:
-      let vc = storyboard?.instantiateViewController(withIdentifier: "storeAD") as! StoreADViewController
-      vc.advertisement = advertisement
-      navigationController?.pushViewController(vc, animated: true)
-    }
+    APIService.shared.homeAPI.rx.request(.getAdvertisement(id: advertisement.id))
+      .filterSuccessfulStatusCodes()
+      .subscribe(onSuccess: { _ in
+        switch advertisement.division {
+        case .url:
+          let vc = self.storyboard?.instantiateViewController(withIdentifier: "urlAD") as! UrlADViewController
+          vc.advertisement = advertisement
+          self.navigationController?.pushViewController(vc, animated: true)
+        case .image:
+          let vc = self.storyboard?.instantiateViewController(withIdentifier: "imageAD") as! ImageADViewController
+          vc.advertisement = advertisement
+          self.navigationController?.pushViewController(vc, animated: true)
+        case .store:
+          let vc = self.storyboard?.instantiateViewController(withIdentifier: "storeAD") as! StoreADViewController
+          vc.advertisement = advertisement
+          self.navigationController?.pushViewController(vc, animated: true)
+        }
+      }, onFailure: { error in
+        log.error(error)
+      })
+      .disposed(by: disposeBag)
   }
 }
 

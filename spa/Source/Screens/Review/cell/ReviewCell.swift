@@ -31,6 +31,7 @@ class ReviewCell: UITableViewCell {
   @IBOutlet weak var userNameLabel: UILabel!
   @IBOutlet weak var ratingLabel: UILabel!
   @IBOutlet weak var descriptionLabel: UILabel!
+  @IBOutlet weak var descriptionLabelHeight: NSLayoutConstraint!
   @IBOutlet weak var createdAtLabel: UILabel!
 
     @IBOutlet var commentView: UIView!
@@ -58,6 +59,7 @@ class ReviewCell: UITableViewCell {
     }else{
       noImageView.isHidden = true
     }
+    descriptionLabel.calculateLabelHeight()
     
     storeImageView.kf.setImage(with: URL(string: review.storeTitleImage)!)
     storeAddressLabel.text = review.storeAddress

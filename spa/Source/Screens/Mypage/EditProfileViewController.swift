@@ -8,8 +8,52 @@
 import UIKit
 import CropViewController
 import RxAlamofire
+import GoogleSignIn
+import KakaoSDKUser
+import NaverThirdPartyLogin
+import AuthenticationServices
 
-class EditProfileViewController: BaseViewController {
+
+class EditProfileViewController: BaseViewController, CommonDialogDelegate {
+  func didUnlikeButtonTapped(diff: String) {
+    if diff == "회원탈퇴"{
+      APIService.shared.userAPI.rx.request(.withdrawal)
+        .filterSuccessfulStatusCodes()
+        .subscribe(onSuccess: { response in
+          self.dismissHUD()
+          self.callOkActionMSGDialog(message: "회원탈퇴가 완료되었습니다") {
+            if self.diff == "kakao"{
+              self.signOutKakao()
+            }else if self.diff == "naver"{
+              self.signOutNaver()
+            }else if self.diff == "google"{
+              self.signOutGoogle()
+            }else if self.diff == "apple"{
+              self.signOutApple()
+            }
+            DataHelper<Any>.clearAll()
+            self.backPress()
+          }
+        }, onFailure: { error in
+          self.dismissHUD()
+          self.callMSGDialog(message: "오류가 발생하였습니다")
+        })
+        .disposed(by: self.disposeBag)
+    }else if diff == "로그아웃"{
+      if self.diff == "kakao"{
+        signOutKakao()
+      }else if self.diff == "naver"{
+        signOutNaver()
+      }else if self.diff == "google"{
+        signOutGoogle()
+      }else if self.diff == "apple"{
+        signOutApple()
+      }
+      DataHelper<Any>.clearAll()
+      self.backPress()
+    }
+  }
+  
   @IBOutlet weak var profileImageView: UIImageView!
   @IBOutlet weak var editProfileImageButton: UIButton!
 
@@ -26,12 +70,33 @@ class EditProfileViewController: BaseViewController {
   @IBOutlet weak var confirmButton: UIButton!
 
   var selectedImage: UIImage?
+  var diff: String?
 
   override func viewDidLoad() {
     super.viewDidLoad()
 
     bindInput()
     getUserInfo()
+  }
+  
+  func signOutApple() {
+  }
+  func signOutGoogle() {
+      GIDSignIn.sharedInstance()?.signOut()
+  }
+  func signOutKakao() {
+      // 로그아웃 요청
+    KakaoSDKUser.UserApi.shared.logout { error in
+      if let error = error {
+          print("카카오 로그아웃 실패: \(error.localizedDescription)")
+      } else {
+          print("카카오 로그아웃 성공")
+      }
+    }
+  }
+  func signOutNaver() {
+      let naverLoginInstance = NaverThirdPartyLoginConnection.getSharedInstance()
+      naverLoginInstance?.resetToken()
   }
 
   func bindInput() {
@@ -61,43 +126,39 @@ class EditProfileViewController: BaseViewController {
     editPasswordButton.rx.tap
       .bind(onNext: { [weak self] in
         guard let self = self else { return }
-        let vc = UIStoryboard(name: "Onboard", bundle: nil).instantiateViewController(withIdentifier: "findPassword") as! FindPasswordViewController
-        vc.isFromEditProfile = true
-        self.navigationController?.pushViewController(vc, animated: true)
+        if self.diff != "email" {
+          let vc = UIStoryboard(name: "Mypage", bundle: nil).instantiateViewController(withIdentifier: "CommonPopup") as! CommonDialog
+          vc.titleString = "해당 채널에서 변경 가능합니다."
+          vc.yesHidden = true
+          vc.yesTitle = "확인"
+            vc.delegate = self
+            self.present(vc, animated: false)
+        }else{
+          let vc = UIStoryboard(name: "Onboard", bundle: nil).instantiateViewController(withIdentifier: "findPassword") as! FindPasswordViewController
+          vc.isFromEditProfile = true
+          self.navigationController?.pushViewController(vc, animated: true)
+        }
       })
       .disposed(by: disposeBag)
 
     logoutButton.rx.tap
       .bind(onNext: { [weak self] in
         guard let self = self else { return }
-        self.callOkCancelMSGDialog(message: "로그아웃 하시겠습니까?") {
-          DataHelper<Any>.clearAll()
-          self.backPress()
-//          let vc = UIStoryboard(name: "Onboard", bundle: nil).instantiateViewController(withIdentifier: "onboardNav")
-//          self.appDelegate.window?.rootViewController = vc
-        }
+        let vc = UIStoryboard(name: "Mypage", bundle: nil).instantiateViewController(withIdentifier: "CommonPopup") as! CommonDialog
+        vc.titleString = "로그아웃 하시겠습니까?"
+        vc.yesTitle = "로그아웃"
+          vc.delegate = self
+          self.present(vc, animated: false)
       })
       .disposed(by: disposeBag)
 
     withdrawalButton.rx.tap
       .bind(onNext: { [weak self] in
         guard let self = self else { return }
-        self.callOkCancelMSGDialog(message: "회원탈퇴 하시겠습니까?", okAction: {
-          self.showHUD()
-          APIService.shared.userAPI.rx.request(.withdrawal)
-            .filterSuccessfulStatusCodes()
-            .subscribe(onSuccess: { response in
-              self.dismissHUD()
-              self.callOkActionMSGDialog(message: "회원탈퇴가 완료되었습니다") {
-                DataHelper<Any>.clearAll()
-                self.backPress()
-              }
-            }, onFailure: { error in
-              self.dismissHUD()
-              self.callMSGDialog(message: "오류가 발생하였습니다")
-            })
-            .disposed(by: self.disposeBag)
-        })
+        let vc = UIStoryboard(name: "Mypage", bundle: nil).instantiateViewController(withIdentifier: "userOut") as! userByeViewController
+          vc.yesTitle = "회원탈퇴"
+          vc.delegate = self
+          self.present(vc, animated: false)
       })
       .disposed(by: disposeBag)
 
@@ -127,6 +188,7 @@ class EditProfileViewController: BaseViewController {
         } else {
           self.profileImageView.image = UIImage(named: "profileDefault")
         }
+        self.diff = response.accounts?.first
         self.emailLabel.text = response.email
         self.nameTextField.text = response.name
       }, onFailure: { error in

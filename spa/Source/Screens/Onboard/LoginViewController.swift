@@ -10,6 +10,7 @@ import KakaoSDKUser
 import AuthenticationServices
 import GoogleSignIn
 import NaverThirdPartyLogin
+import Alamofire
 
 
 class LoginViewController: BaseViewController {
@@ -42,6 +43,9 @@ class LoginViewController: BaseViewController {
       vc.selectedBrandIdList = selectedBrandIdList
       self.navigationController?.pushViewController(vc, animated: false)
     }
+  }
+  override func viewWillAppear(_ animated: Bool) {
+    loginInstance?.requestDeleteToken()
   }
 
   func bindInput() {
@@ -159,6 +163,7 @@ class LoginViewController: BaseViewController {
   }
   func snsLogin(type: SocialType,id: String) {
     showHUD()
+    print("snsLoginId: \(id)")
     let registerRequest = SocialLoginRequest(type: type,loginId: id)
     APIService.shared.authAPI.rx.request(.socialLogin(param: registerRequest))
       .filterSuccessfulStatusCodes()
@@ -185,9 +190,7 @@ class LoginViewController: BaseViewController {
       .disposed(by: disposeBag)
   }
   func naver(){
-    loginInstance?.requestDeleteToken()
     loginInstance?.requestThirdPartyLogin()
-    print("!!")
   }
   func google(){
     GIDSignIn.sharedInstance().signIn()
@@ -202,6 +205,50 @@ class LoginViewController: BaseViewController {
       authorizationController.presentationContextProvider = self
       authorizationController.performRequests()
   }
+  func naverLoginPaser() {
+            guard let accessToken = loginInstance?.isValidAccessTokenExpireTimeNow() else { return }
+            
+            if !accessToken {
+              return
+            }
+            
+            guard let tokenType = loginInstance?.tokenType else { return }
+            guard let accessToken = loginInstance?.accessToken else { return }
+              
+            let requestUrl = "https://openapi.naver.com/v1/nid/me"
+            let url = URL(string: requestUrl)!
+            
+            let authorization = "\(tokenType) \(accessToken)"
+            
+            let req = AF.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: ["Authorization": authorization])
+            
+            req.responseJSON { response in
+              
+              guard let body = response.value as? [String: Any] else { return }
+                
+                if let resultCode = body["message"] as? String{
+                    if resultCode.trimmingCharacters(in: .whitespaces) == "success"{
+                        let resultJson = body["response"] as! [String: Any]
+                        
+                        let name = resultJson["name"] as? String ?? ""
+                        let id = resultJson["id"] as? String ?? ""
+//                        let phone = resultJson["mobile"] as! String
+//                        let gender = resultJson["gender"] as? String ?? ""
+//                        let birthyear = resultJson["birthyear"] as? String ?? ""
+//                        let birthday = resultJson["birthday"] as? String ?? ""
+//                        let profile = resultJson["profile_image"] as? String ?? ""
+//                        let email = resultJson["email"] as? String ?? ""
+//                        let nickName = resultJson["nickname"] as? String ?? ""
+                      
+                    
+                        self.snsLogin(type: .naver, id: id)
+                    }
+                    else{
+                        //실패
+                    }
+                }
+            }
+      }
   func kakao(){
     if (KakaoSDKUser.UserApi.isKakaoTalkLoginAvailable()) {
       // 카카오톡 로그인. api 호출 결과를 클로저로 전달.
@@ -291,8 +338,7 @@ extension LoginViewController: NaverThirdPartyLoginConnectionDelegate {
   // 로그인에 성공했을 경우 호출
   func oauth20ConnectionDidFinishRequestACTokenWithAuthCode() {
     print("[Success] : Success Naver Login")
-    let vc = self.storyboard?.instantiateViewController(withIdentifier: "snsregister") as! SnsJoingViewController
-    self.navigationController?.pushViewController(vc, animated: true)
+    naverLoginPaser()
   }
   
   // 접근 토큰 갱신
@@ -317,7 +363,8 @@ extension LoginViewController: GIDSignInDelegate {
             return
         }
         guard let authentication = user.authentication else { return }
-      self.snsLogin(type: .google, id: signIn.clientID)
+      print(user.userID)
+      self.snsLogin(type: .google, id: user.userID)
         // 서버에 토큰을 보내기. 이 때 idToken, accessToken 차이에 주의할 것
     }
 }

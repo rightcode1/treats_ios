@@ -27,7 +27,9 @@ class ConfirmReservationViewController: BaseViewController {
   
   @IBOutlet weak var optionTableView: UITableView!
   @IBOutlet weak var optionTableViewHeight: NSLayoutConstraint!
-
+  
+  @IBOutlet var depositLabel: UILabel!
+  
   var store: Store!
   var productCategory: Store.ProductCategory?
   var product: Store.Product!
@@ -58,9 +60,11 @@ class ConfirmReservationViewController: BaseViewController {
     }
     productCategoryLabel.text = productCategory?.name
     productNameLabel.text = product.name
-    productTimeLabel.text = "\(product.time)분"
+    productTimeLabel.text = "\(product.surgeryTime ?? 0)분"
     productPriceLabel.text = "\(product.price.formattedDecimalString())원"
     productTotalLabel.text = "\((product.price * selectedBedCount).formattedDecimalString())원"
+    
+    depositLabel.text = "\((selectedBedCount * 30000).formattedDecimalString())원"
 
     nextButton.rx.tap
       .bind(onNext: { [weak self] in

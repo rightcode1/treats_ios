@@ -97,6 +97,7 @@ extension StoreAPI: TargetType {
   }
 
   var headers: [String : String]? {
+    print("access: \(DataHelperTool.accessToken)")
     if let accessToken = DataHelperTool.accessToken {
       return ["Content-type": "application/json", "Authorization": "Bearer \(accessToken)"]
     } else {
@@ -149,6 +150,7 @@ struct Store: Codable {
   var time: String
   var subway: String
   var parking: String
+  var guide: String?
   var launch: String
   
   var chatRoomId: Int?
@@ -270,6 +272,18 @@ struct Category: Codable {
 struct GetCategoryListResponse: Codable {
   var data: [Category]
 }
+struct AddressInfo: Codable {
+  let x: String
+  let y: String
+}
+struct CancelStatus: Codable {
+  let statusCode: Int
+  let message: String
+}
+struct ResponseData: Codable {
+    let documents: [AddressInfo]
+}
+
 
 struct GetScheduleResponse: Codable {
   var data: [Bed]

@@ -72,7 +72,7 @@ extension LikeViewController: UITableViewDataSource, UITableViewDelegate {
 }
 
 extension LikeViewController: StoreCellDelegate {
-  func didSelect(_ cell: StoreCell) {  }
+  func didSelect(_ cell: StoreCell,_ date: Date) {  }
   
   func didLikeButtonTapped(_ cell: StoreCell) {
     guard let index = tableView.indexPath(for: cell)?.row else { return }

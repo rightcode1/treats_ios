@@ -28,6 +28,8 @@ class SnsJoingViewController: BaseViewController {
   @IBOutlet weak var authCodeCheckView: UIView!
 
   @IBOutlet weak var recommendUserTextField: UITextField!
+  @IBOutlet weak var recommendWarnningView: UIView!
+  @IBOutlet weak var recommendCheckView: UIView!
 
   @IBOutlet weak var termsPrivacyOpenButton: UIButton!
   @IBOutlet weak var termsPrivacyButton: UIImageView!
@@ -48,6 +50,7 @@ class SnsJoingViewController: BaseViewController {
   var timer = Timer()
   var authCodeTime = 180
   var registRequest: SocialLoginRequest?
+  var recommandCheck = false
 
   var isConfirmAuthCode = false
   var isCheckTermsPrivacy = false
@@ -67,6 +70,8 @@ class SnsJoingViewController: BaseViewController {
     nameCheckView.isHidden = true
     authCodeWarnningView.isHidden = true
     authCodeCheckView.isHidden = true
+    recommendWarnningView.isHidden = true
+    recommendCheckView.isHidden = true
 
     bindInput()
     bindOutput()
@@ -170,6 +175,30 @@ class SnsJoingViewController: BaseViewController {
         self.view.layoutIfNeeded()
       })
       .disposed(by: disposeBag)
+    
+  
+  recommendUserTextField.rx.controlEvent(.editingDidEnd)
+    .bind(onNext: { [weak self] in
+      guard let self = self else { return }
+      let recommendUser = self.recommendUserTextField.text!
+      if !recommendUser.isEmpty {
+        self.checkRecommend()
+      } else {
+        self.recommandCheck = false
+        self.recommendWarnningView.isHidden = true
+        self.recommendCheckView.isHidden = true
+      }
+    })
+    .disposed(by: disposeBag)
+
+  recommendUserTextField.rx.controlEvent(.editingDidBegin)
+    .bind(onNext: { [weak self] in
+      guard let self = self else { return }
+      self.recommandCheck = false
+      self.recommendWarnningView.isHidden = true
+      self.recommendCheckView.isHidden = true
+    })
+    .disposed(by: disposeBag)
 
     nextButton.rx.tapGesture().when(.recognized)
       .bind(onNext: { [weak self] _ in
@@ -188,6 +217,12 @@ class SnsJoingViewController: BaseViewController {
           self.callMSGDialog(message: "실명을 입력해주세요.")
           return
         }
+        
+        if self.recommendUserTextField.text != "" && !self.recommandCheck{
+          self.callMSGDialog(message: "추천인을 확인해주세요.")
+          return
+        }
+    //
 
         self.register()
       })
@@ -300,6 +335,22 @@ class SnsJoingViewController: BaseViewController {
         self.isConfirmAuthCode = false
         self.authCodeWarnningView.isHidden = false
         self.authCodeCheckView.isHidden = true
+      })
+      .disposed(by: disposeBag)
+  }
+  
+  func checkRecommend() {
+    showHUD()
+    APIService.shared.authAPI.rx.request(.checkNickname(nickname: recommendUserTextField.text!))
+      .filterSuccessfulStatusCodes()
+      .subscribe(onSuccess: { response in
+        self.dismissHUD()
+        self.recommendWarnningView.isHidden = false
+        self.recommendCheckView.isHidden = true
+      }, onFailure: { error in
+        self.dismissHUD()
+        self.recommendWarnningView.isHidden = true
+        self.recommendCheckView.isHidden = false
       })
       .disposed(by: disposeBag)
   }

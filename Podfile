@@ -14,7 +14,7 @@ post_install do |installer|
   end
 end
 
-target 'spa' do
+target 'Treat' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
 
@@ -64,6 +64,7 @@ pod 'DKImagePickerController'
   pod 'RxKakaoSDKShare'
   pod 'GoogleSignIn', '~> 5.0.2'
   pod 'naveridlogin-sdk-ios'
+  pod 'SwiftyJSON'
 
 
 #  pod 'JTAppleCalendar'

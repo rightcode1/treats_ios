@@ -9,7 +9,7 @@ import Foundation
 
 enum SocialType: String, Codable {
   case kakao
-  case facebook
+  case naver
   case google
   case apple
 }

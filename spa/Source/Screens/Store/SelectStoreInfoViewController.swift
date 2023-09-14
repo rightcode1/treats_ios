@@ -16,6 +16,8 @@ class SelectStoreInfoViewController: BaseViewController {
   @IBOutlet weak var calendarView: JTACMonthView!
   @IBOutlet weak var currentMonthLabel: UILabel!
   @IBOutlet weak var bedCountCollectionView: UICollectionView!
+  @IBOutlet weak var timeCollectionView: UICollectionView!
+  
   @IBOutlet weak var applyButton: UIButton!
   
   @IBOutlet var coupleView: UIView!
@@ -26,8 +28,11 @@ class SelectStoreInfoViewController: BaseViewController {
   var selectedDate = Date()
   var selectedBedCount = 2
   var selectedTime = Date()
+  var storeId: Int?
+  var bedList = [Bed]()
   
   var timeList = [Date]()
+  var timeList2 = [ReservationTime]()
   var isCouple : Bool = false{
     didSet{
       if isCouple == true{
@@ -49,6 +54,11 @@ class SelectStoreInfoViewController: BaseViewController {
       guard let self = self, let startDate = visibleDates.monthDates.first?.date else { return }
       self.currentMonthLabel.text = "\(startDate.year). \(startDate.month)"
     }
+    if storeId != nil{
+      getSchedule()
+    }else{
+      generateTimeList()
+    }
     applyButton.rx.tap
       .bind(onNext: { [weak self] in
         guard let self = self else { return }
@@ -67,27 +77,82 @@ class SelectStoreInfoViewController: BaseViewController {
       })
       .disposed(by: disposeBag)
   }
-//
-//  func generateTimeList() {
-//    timeList = []
-//    var startDate = DateComponents(
-//      calendar: Calendar.current,
-//      year: selectedDate.year,
-//      month: selectedDate.month,
-//      day: selectedDate.day,
-//      hour: 0,
-//      minute: 0,
-//      second: 0
-//    ).date!// ?? Date()
-//
-//    while startDate.day == selectedDate.day {
-//      timeList.append(startDate)
-//      startDate.addTimeInterval(60*30)
-//    }
-//    timeList = timeList.filter({ $0 > Date() })
-//    timeList.sort(by: { $0 < $1 })
-//    timeCollectionView.reloadData()
-//  }
+  func getSchedule() {
+    APIService.shared.storeAPI.rx.request(.getStoreSchedule(storeId: storeId!, date: selectedDate.yyyyMMdd))
+      .filterSuccessfulStatusCodes()
+      .map(GetScheduleResponse.self)
+      .subscribe(onSuccess: { response in
+        self.bedList = response.data
+        self.timeList2 = []
+        
+        let calendar = Calendar(identifier: .gregorian)
+        let currentDate = Date() // 현재 로컬 시간을 가져옵니다.
+
+        var date = calendar.date(from: DateComponents(year: self.selectedDate.year, month: self.selectedDate.month, day: self.selectedDate.day, hour: 0, minute: 0))!
+        let endDate = calendar.date(byAdding: .day, value: 1, to: date)!
+
+        var dateList = [Date]()
+        while (date < endDate) {
+            date.addTimeInterval(60 * 30)
+            
+            // 시작 날짜가 현재 로컬 시간 이후인 경우에만 추가
+            if date >= currentDate {
+                dateList.append(date)
+            }
+        }
+        print(self.selectedTime)
+        self.timeList2 = dateList.map({ ReservationTime(date: $0, bedCount: 0) })
+        self.timeList2 = self.timeList2.filter({$0.date >= self.selectedTime})
+        
+        response.data.forEach { bed in
+          (bed.schedules ?? []).forEach { schedule in
+            let date = Date.dateFromISO8601String(schedule.date)!
+            if let index = self.timeList2.firstIndex(where: { $0.date.isSameTime(date) }) {
+              self.timeList2[index].bedCount += 1
+            }
+          }
+        }
+        
+        //        self.timeList = self.timeList.filter({ $0.date > Date() })
+        self.timeList2.enumerated().forEach({ (index, item) in
+          if item.date < Date() {
+            self.timeList2[index].bedCount = 0
+          }
+        })
+        self.timeList2 = self.timeList2.filter{$0.bedCount >= self.selectedBedCount}
+        self.timeList2.sort(by: { $0.date < $1.date})
+        self.timeCollectionView.reloadData()
+        
+        if let time = self.timeList2.filter({ $0.date > Date() }).first {
+          if let index = self.timeList2.firstIndex(where: { $0.date == time.date }) {
+            self.timeCollectionView.scrollToItem(at: IndexPath(row: index, section: 0), at: .left, animated: false)
+          }
+        }
+      }, onFailure: { error in
+      })
+      .disposed(by: disposeBag)
+  }
+
+  func generateTimeList() {
+    timeList = []
+    var startDate = DateComponents(
+      calendar: Calendar.current,
+      year: selectedDate.year,
+      month: selectedDate.month,
+      day: selectedDate.day,
+      hour: 0,
+      minute: 0,
+      second: 0
+    ).date!// ?? Date()
+
+    while startDate.day == selectedDate.day {
+      timeList.append(startDate)
+      startDate.addTimeInterval(60*30)
+    }
+    timeList = timeList.filter({ $0 > Date() })
+    timeList.sort(by: { $0 < $1 })
+    timeCollectionView.reloadData()
+  }
 }
 
 extension SelectStoreInfoViewController: JTACMonthViewDataSource, JTACMonthViewDelegate {
@@ -125,7 +190,11 @@ extension SelectStoreInfoViewController: JTACMonthViewDataSource, JTACMonthViewD
   func calendar(_ calendar: JTACMonthView, didSelectDate date: Date, cell: JTACDayCell?, cellState: CellState, indexPath: IndexPath) {
     selectedDate = date
     calendarView.reloadData()
-//    generateTimeList()
+    if storeId != nil{
+      getSchedule()
+    }else{
+      generateTimeList()
+    }
   }
 
   func calendar(_ calendar: JTACMonthView, didScrollToDateSegmentWith visibleDates: DateSegmentInfo) {
@@ -140,7 +209,11 @@ extension SelectStoreInfoViewController: UICollectionViewDataSource, UICollectio
     if collectionView == bedCountCollectionView {
       return 4
     } else {
-      return timeList.count
+      if storeId != nil{
+        return timeList2.count
+      }else{
+        return timeList.count
+      }
     }
   }
 
@@ -161,9 +234,14 @@ extension SelectStoreInfoViewController: UICollectionViewDataSource, UICollectio
       return cell
     } else {
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
-      let time = timeList[indexPath.item]
-      (cell.viewWithTag(1) as! UILabel).text = time.ahmm
-      if time.hour == selectedTime.hour && time.minute == selectedTime.minute {
+      var time: Date?
+      if storeId != nil{
+        time = timeList2[indexPath.item].date
+        }else{
+        time = timeList[indexPath.item]
+      }
+      (cell.viewWithTag(1) as! UILabel).text = time?.ahmm
+      if time?.hour == selectedTime.hour && time?.minute == selectedTime.minute {
         cell.borderColor = .black
       } else {
         cell.borderColor = UIColor(hex: "#c6c6c8")
@@ -176,10 +254,16 @@ extension SelectStoreInfoViewController: UICollectionViewDataSource, UICollectio
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     if collectionView == bedCountCollectionView {
       selectedBedCount = indexPath.item+1
+      if storeId != nil{
+        getSchedule()
+      }
     } else {
-      selectedTime = timeList[indexPath.item]
+      if storeId != nil{
+        selectedTime = timeList2[indexPath.item].date
+      }else{
+        selectedTime = timeList[indexPath.item]
+      }
     }
-
     collectionView.reloadData()
   }
 

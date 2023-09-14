@@ -9,7 +9,7 @@ import UIKit
 
 protocol StoreCellDelegate: AnyObject {
   func didLikeButtonTapped(_ cell: StoreCell)
-  func didSelect(_ cell: StoreCell)
+  func didSelect(_ cell: StoreCell,_ date: Date)
 }
 
 class StoreCell: UITableViewCell {
@@ -78,7 +78,17 @@ extension StoreCell: UICollectionViewDataSource, UICollectionViewDelegate, UICol
   }
   
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    delegate?.didSelect(self)
+    var selectedTime = Date()
+    if indexPath.row == 3{
+      if Date().minute < 30 {
+        selectedTime = DateComponents(calendar: Calendar.current, year: Date().year, month: Date().month, day: Date().day, hour: Date().hour, minute: 30).date ?? Date()
+      } else {
+        selectedTime = DateComponents(calendar: Calendar.current, year: Date().year, month: Date().month, day: Date().day, hour: Date().hour+1, minute: 0).date ?? Date()
+      }
+    }else{
+      selectedTime = timeList[indexPath.row]
+    }
+    delegate?.didSelect(self, selectedTime)
   }
 
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -89,4 +99,5 @@ extension StoreCell: UICollectionViewDataSource, UICollectionViewDelegate, UICol
       return CGSize(width: 80, height: 30)
     }
   }
+  
 }

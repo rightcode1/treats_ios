@@ -10,10 +10,12 @@ import Moya
 
 enum OrderAPI {
   case getOrderList(param: GetOrderListReqeust)
+  case getWaitList(param: GetOrderListReqeust)
   case getOrderDetail(id: Int)
 
   case createOrderSheet(param: CreateOrderSheetRequest)
   case getOrderSheet(id: String)
+  case getCancel(id: Int)
 
   case postOrderWebview(param: PostOrderRequest)
   case postOrder(param: PostOrderRequest) // 0원일때
@@ -30,8 +32,12 @@ extension OrderAPI: TargetType {
     switch self {
     case .getOrderList:
       return "/orders"
+    case .getWaitList:
+      return "/waiting"
     case .getOrderDetail(let id):
       return "/orders/\(id)"
+    case .getCancel(let id):
+      return "/orders/check/\(id)"
 
     case .createOrderSheet:
       return "/orderSheets"
@@ -54,7 +60,9 @@ extension OrderAPI: TargetType {
         .postOrder:
       return .post
     case .getOrderList,
+        .getWaitList,
         .getOrderDetail,
+        .getCancel,
         .getOrderSheet:
       return .get
     case .cancelOrder:
@@ -69,6 +77,8 @@ extension OrderAPI: TargetType {
   var task: Task {
     switch self {
     case .getOrderList(let param):
+      return .requestParameters(parameters: try! param.asDictionary(), encoding: URLEncoding.default)
+    case .getWaitList(let param):
       return .requestParameters(parameters: try! param.asDictionary(), encoding: URLEncoding.default)
     case .createOrderSheet(let param):
       return .requestParameters(parameters: try! param.asDictionary(), encoding: JSONEncoding.default)
@@ -167,13 +177,17 @@ struct OrderList: Codable {
   var storeAddress: String
   var storeName: String
   var storeTitleImage: String
-  var productName: String
-  var productTime: Int
-  var reservationDate: String
-  var amount: Int
-  var reviewed: Bool
+  var productName: String?
+  var productTime: Int?
+  var reservationDate: String?
+  var amount: Int?
+  var reviewed: Bool?
   var createdAt: String
+  var date: String
+  var time: String
+  var count: Int
 }
+
 
 struct Order: Codable {
   var reservationDate: String
@@ -197,7 +211,7 @@ struct Order: Codable {
   var orderSheetId: String
   var payment: Payment?
   var cancelledAt: String?
-  var cancelledMemo: String?
+  var cancelledUserMemo: String?
   //  "vbankRefund": {
   //    "bank": "352203628507425663491392198464443158402412571532141126",
   //    "account": "28049063023312358283501331080558196434051200199913672111928",
@@ -209,6 +223,8 @@ struct Order: Codable {
     case noReady
     case used
     case cancelled
+    case wait
+    case send
 
     func getString() -> String {
       switch self {
@@ -220,6 +236,10 @@ struct Order: Codable {
         return "사용완료"
       case .cancelled:
         return "예약취소"
+      case .wait:
+        return "대기예약"
+      case .send:
+        return "알림발송"
       }
     }
 
@@ -233,6 +253,10 @@ struct Order: Codable {
         return UIColor(hex: "#797979")
       case .cancelled:
         return UIColor(hex: "#e96c68")
+      case .wait:
+        return UIColor(hex: "#7BC4BC")
+      case .send:
+        return UIColor(hex: "#3D5C96")
       }
     }
   }

@@ -19,11 +19,9 @@ class SplashViewController: BaseViewController {
     super.viewDidLoad()
     self.splashImageView.animate(withGIFNamed: "spaIntro")
     DispatchQueue.main.asyncAfter(deadline: DispatchTime.now()+2) {
-
     APIService.shared.homeAPI.rx.request(.visitCount)
       .subscribe()
       .disposed(by: self.disposeBag)
-
     if DataHelperTool.userId != nil {
       APIService.shared.userAPI.rx.request(.getUserInfo)
         .filterSuccessfulStatusCodes()

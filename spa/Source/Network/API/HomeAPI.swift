@@ -97,9 +97,8 @@ struct searchInfo: Codable {
   var storeList: [storList]
 }
 struct storList: Codable{
-  var storeId: Int?
-  var name: String?
-  var count: Int?
+  var storeId: Int
+  var name: String
 }
 
 struct Advertisement: Codable {
