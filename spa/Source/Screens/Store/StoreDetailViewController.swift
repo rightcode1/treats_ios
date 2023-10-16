@@ -125,6 +125,7 @@ class StoreDetailViewController: BaseViewController{
   override func viewDidLoad() {
     super.viewDidLoad()
     
+    self.couponButton.borderWidth = 0.5
     imagePageControl.setFillColor(.black, for: .selected)
     imagePageControl.setFillColor(.clear, for: .normal)
     imagePageControl.setStrokeColor(.black, for: .selected)
@@ -142,7 +143,7 @@ class StoreDetailViewController: BaseViewController{
     
     couponView.isHidden = true
     tableView.tableFooterView?.frame.size.height = 0
-    tableView.tableHeaderView?.frame.size.height = UIScreen.main.bounds.width + 383 - 110
+    tableView.tableHeaderView?.frame.size.height = UIScreen.main.bounds.width + 383 - 105
     couponButtonIcon.isHidden = true
     
     tableView.register(UINib(nibName: "ProductCategoryCell", bundle: nil), forCellReuseIdentifier: "productCategoryCell")
@@ -330,7 +331,7 @@ class StoreDetailViewController: BaseViewController{
         self.endTime = dateFormatter.date(from: response.serviceEnd) ?? Date()
         if (response.coupons ?? []).isEmpty {
           self.couponView.isHidden = true
-          self.tableView.tableHeaderView?.frame.size.height = UIScreen.main.bounds.width + 385 - 110
+          self.tableView.tableHeaderView?.frame.size.height = UIScreen.main.bounds.width + 385 - 105
         } else {
           self.couponView.isHidden = false
           self.couponButtonIcon.isHidden = false
