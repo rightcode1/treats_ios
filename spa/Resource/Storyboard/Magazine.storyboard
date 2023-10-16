@@ -12,7 +12,7 @@
         <!--Magazine View Controller-->
         <scene sceneID="s0d-6b-0kx">
             <objects>
-                <viewController id="Y6W-OH-hqX" customClass="MagazineViewController" customModule="spa" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="Y6W-OH-hqX" customClass="MagazineViewController" customModule="Treat" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -147,7 +147,7 @@
         <!--Magazine Detail View Controller-->
         <scene sceneID="9Xx-AL-SU1">
             <objects>
-                <viewController storyboardIdentifier="magazineDetail" extendedLayoutIncludesOpaqueBars="YES" hidesBottomBarWhenPushed="YES" id="dhk-rh-HqZ" customClass="MagazineDetailViewController" customModule="spa" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="magazineDetail" extendedLayoutIncludesOpaqueBars="YES" hidesBottomBarWhenPushed="YES" id="dhk-rh-HqZ" customClass="MagazineDetailViewController" customModule="Treat" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="QWg-Bj-jdt">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -206,6 +206,7 @@
                     </view>
                     <connections>
                         <outlet property="tableView" destination="bh8-k4-rxA" id="1kd-xH-Jbl"/>
+                        <outlet property="titleLabel" destination="3ur-Mu-Cuq" id="VWR-p2-utv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FJE-QK-MjN" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

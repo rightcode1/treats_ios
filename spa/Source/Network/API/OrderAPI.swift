@@ -237,7 +237,7 @@ struct Order: Codable {
       case .cancelled:
         return "예약취소"
       case .wait:
-        return "대기예약"
+        return "줄서기 예약"
       case .send:
         return "알림발송"
       }

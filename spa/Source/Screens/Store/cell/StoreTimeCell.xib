@@ -9,7 +9,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="StoreTimeCell" customModule="spa" customModuleProvider="target">
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="StoreTimeCell" customModule="Treat" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="70" height="30"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -27,7 +27,7 @@
                     </imageView>
                 </subviews>
             </view>
-            <color key="backgroundColor" red="0.58823531870000001" green="0.8078432083" blue="0.78823530669999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+            <color key="backgroundColor" red="0.58823529411764708" green="0.80784313725490198" blue="0.78823529411764703" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
             <constraints>
                 <constraint firstItem="tRY-9b-uin" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="BE5-FK-Mma"/>
                 <constraint firstAttribute="trailing" secondItem="tRY-9b-uin" secondAttribute="trailing" id="RzU-la-nID"/>

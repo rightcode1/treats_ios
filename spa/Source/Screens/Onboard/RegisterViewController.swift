@@ -105,6 +105,7 @@ class RegisterViewController: BaseViewController {
 
     timer.invalidate()
   }
+  
 
   func bindInput() {
     emailTextField.rx.controlEvent(.editingDidEnd)
@@ -327,8 +328,8 @@ class RegisterViewController: BaseViewController {
       .map({ $0.validatePhone() })
       .bind(onNext: { [weak self] b in
         guard let self = self else { return }
-        self.sendAuthCodeButton.borderColor = b ? .black : UIColor(hex: "#f7f8fa")
-        self.sendAuthCodeButtonLabel.textColor = b ? .black : UIColor(hex: "#9298aa")
+        self.sendAuthCodeButton.borderColor = b ? .black : UIColor(hex: "#c6c6c8")
+        self.sendAuthCodeButtonLabel.textColor = b ? .black : UIColor(hex: "#2d2d2d")
       })
       .disposed(by: disposeBag)
 
@@ -337,7 +338,7 @@ class RegisterViewController: BaseViewController {
       .bind(onNext: { [weak self] b in
         guard let self = self else { return }
         self.nextButton.isUserInteractionEnabled = b
-        self.nextButton.backgroundColor = b ? .black : UIColor(hex: "#F7F8FA")
+        self.nextButton.backgroundColor = b ? .black : UIColor(hex: "#e3e6ec")
         self.nextButtonLabel.textColor = b ? .white : UIColor(hex: "#9298AA")
       })
       .disposed(by: disposeBag)

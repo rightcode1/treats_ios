@@ -45,6 +45,7 @@ class HomeViewController: BaseViewController {
   var selectedAroundMenuIndex = 0
 
   var shouldGoOrderHistory = false
+  var shouldGoWaitOrderHistory = false
   var selectedDate = Date()
   var selectedBedCount = 1
 
@@ -88,6 +89,12 @@ class HomeViewController: BaseViewController {
       if shouldGoOrderHistory {
         self.shouldGoOrderHistory = false
         let vc = UIStoryboard(name: "Mypage", bundle: nil).instantiateViewController(withIdentifier: "orderHistory") as! OrderHistoryViewController
+        navigationController?.pushViewController(vc, animated: false)
+      }
+      if shouldGoWaitOrderHistory {
+        self.shouldGoWaitOrderHistory = false
+        let vc = UIStoryboard(name: "Mypage", bundle: nil).instantiateViewController(withIdentifier: "orderHistory") as! OrderHistoryViewController
+        vc.selectedOrderStatus.onNext(.wait)
         navigationController?.pushViewController(vc, animated: false)
       }
     }
@@ -446,9 +453,9 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
       }
     } else if collectionView == benefitCollectionView {
       if indexPath.row + 1 == 4 {
-        return CGSize(width: 315, height: 360)
+        return CGSize(width: 260, height: 314)
       }else{
-        return CGSize(width: 255, height: 360)
+        return CGSize(width: 200, height: 314)
       }
     } else if collectionView == aroundMenuCollectionView {
       return CGSize(width: UIScreen.main.bounds.width/4, height: 35)

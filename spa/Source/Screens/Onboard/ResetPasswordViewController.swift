@@ -110,7 +110,7 @@ class ResetPasswordViewController: BaseViewController {
       .bind(onNext: { [weak self] b in
         guard let self = self else { return }
         self.nextButton.isUserInteractionEnabled = b
-        self.nextButton.backgroundColor = b ? .black : UIColor(hex: "#F7F8FA")
+        self.nextButton.backgroundColor = b ? .black : UIColor(hex: "#e3e6ec")
         self.nextButtonLabel.textColor = b ? .white : UIColor(hex: "#9298AA")
       })
       .disposed(by: disposeBag)

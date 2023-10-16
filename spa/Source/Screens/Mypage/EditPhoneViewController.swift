@@ -82,8 +82,8 @@ class EditPhoneViewController: BaseViewController {
       .bind(onNext: { [weak self] b in
         guard let self = self else { return }
         self.sendAuthCodeButton.isUserInteractionEnabled = b
-        self.sendAuthCodeButton.borderColor = b ? .black : UIColor(hex: "#f7f8fa")
-        self.sendAuthCodeButtonLabel.textColor = b ? .black : UIColor(hex: "#9298aa")
+        self.sendAuthCodeButton.borderColor = b ? .black : UIColor(hex: "#c6c6c8")
+        self.sendAuthCodeButtonLabel.textColor = b ? .black : UIColor(hex: "#2d2d2d")
       })
       .disposed(by: disposeBag)
   }

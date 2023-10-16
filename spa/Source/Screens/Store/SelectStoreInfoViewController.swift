@@ -31,6 +31,9 @@ class SelectStoreInfoViewController: BaseViewController {
   var storeId: Int?
   var bedList = [Bed]()
   
+  var startTime = Date()
+  var endTime = Date()
+  
   var timeList = [Date]()
   var timeList2 = [ReservationTime]()
   var isCouple : Bool = false{
@@ -103,6 +106,15 @@ class SelectStoreInfoViewController: BaseViewController {
         print(self.selectedTime)
         self.timeList2 = dateList.map({ ReservationTime(date: $0, bedCount: 0) })
         self.timeList2 = self.timeList2.filter({$0.date >= self.selectedTime})
+        
+        let hourCalendar = Calendar.current
+        let startHourMinute = calendar.dateComponents([.hour, .minute], from: self.startTime)
+        let endHourMinute = calendar.dateComponents([.hour, .minute], from: self.endTime)
+
+        self.timeList2 = self.timeList2.filter { reservationTime in
+          let reservationHourMinute = calendar.dateComponents([.hour, .minute], from: reservationTime.date)
+          return self.compareDateComponents(lhs: reservationHourMinute, rhs: startHourMinute) && self.compareDateComponents(lhs: endHourMinute, rhs: reservationHourMinute)
+        }
         
         response.data.forEach { bed in
           (bed.schedules ?? []).forEach { schedule in

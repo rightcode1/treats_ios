@@ -223,7 +223,6 @@ class LoginViewController: BaseViewController {
             let req = AF.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: ["Authorization": authorization])
             
             req.responseJSON { response in
-              
               guard let body = response.value as? [String: Any] else { return }
                 
                 if let resultCode = body["message"] as? String{

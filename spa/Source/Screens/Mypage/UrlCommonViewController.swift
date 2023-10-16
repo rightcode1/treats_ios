@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import WebKit
 
-class UrlCommonViewController: BaseViewController {
+class UrlCommonViewController: BaseViewController , WKNavigationDelegate{
   @IBOutlet weak var webView: WKWebView!
   @IBOutlet weak var titleLabel: UILabel!
 
@@ -18,7 +18,12 @@ class UrlCommonViewController: BaseViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
+    showHUD()
     self.titleLabel.text = titleName
+    webView.navigationDelegate = self
     webView.load(URLRequest(url: url!))
+  }
+  func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+    dismissHUD()
   }
 }

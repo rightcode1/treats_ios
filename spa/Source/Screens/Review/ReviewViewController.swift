@@ -177,7 +177,7 @@ class ReviewViewController: BaseViewController {
     APIService.shared.reviewAPI.rx.request(.getReviewList(query: param))
       .map(ListResponse<Review>.self)
       .subscribe(onSuccess: { response in
-        self.reviewList = response.data
+          self.reviewList = response.data
         self.tableView.reloadData()
 
         self.totalLabel.text = "총 \(response.total.formattedDecimalString())개의 리뷰"

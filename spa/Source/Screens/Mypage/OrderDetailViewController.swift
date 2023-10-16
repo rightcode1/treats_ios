@@ -225,6 +225,17 @@ class OrderDetailViewController: BaseViewController {
 
   func initWithOrder() {
     guard let order = order else { return }
+    if order.status == .ready || order.status == .noReady{
+      refundView.isHidden = false
+      refundButton.setTitle("예약금 \(order.amount.formattedDecimalString())원 환불하기", for: .normal)
+    } else if order.status == .cancelled {
+      cancelMemoLabel.text = order.cancelledUserMemo
+      cancelAmountLabel.text = order.amount.formattedDecimalString() + "원"
+      if let date = Date.dateFromISO8601String(order.cancelledAt ?? "") {
+        cancelledAtLabel.text = date.yyyyMMddHHmm
+        cancelledAtLabel2.text = date.yyyyMMddHHmm
+      }
+    }
     cancelMemoLabel.calculateLabelHeight()
     cancelViewHeight.constant = cancelMemoLabel.frame.height + 104
     storeNameLabel.text = order.store.name
@@ -268,17 +279,6 @@ class OrderDetailViewController: BaseViewController {
 
     canceledView.isHidden = order.cancelledUserMemo != nil ? false : true
     refundView.isHidden = true
-    if order.status == .ready || order.status == .noReady{
-      refundView.isHidden = false
-      refundButton.setTitle("예약금 \(order.amount.formattedDecimalString())원 환불하기", for: .normal)
-    } else if order.status == .cancelled {
-      cancelMemoLabel.text = order.cancelledUserMemo
-      cancelAmountLabel.text = order.amount.formattedDecimalString() + "원"
-      if let date = Date.dateFromISO8601String(order.cancelledAt ?? "") {
-        cancelledAtLabel.text = date.yyyyMMddHHmm
-        cancelledAtLabel2.text = date.yyyyMMddHHmm
-      }
-    }
   }
 }
 

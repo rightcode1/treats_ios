@@ -64,6 +64,8 @@ extension UserAPI: TargetType {
 
   var task: Task {
     switch self {
+    case .checkUser(let id ,let pwd):
+      return .requestParameters(parameters: ["email": id,"phone": pwd], encoding: URLEncoding.default)
 //    case .getUserList:
 //      return .requestParameters(parameters: ["isRecommend": true], encoding: URLEncoding(destination: .queryString, arrayEncoding: .brackets, boolEncoding: .literal))
     case .patchUserInfo(let param):

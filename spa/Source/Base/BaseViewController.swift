@@ -36,7 +36,15 @@ class BaseViewController: UIViewController {
       }
     }
   }
-  
+  func compareDateComponents(lhs: DateComponents, rhs: DateComponents) -> Bool {
+      if lhs.hour! < rhs.hour! {
+        return false
+      } else if lhs.hour! == rhs.hour! {
+          return lhs.minute! >= rhs.minute!
+      } else {
+        return true
+      }
+  }
 func showImagePicker(from viewController: UIViewController, maxSelectableCount: Int = 1, completion: @escaping ([UIImage]) -> Void) {
     let pickerController = DKImagePickerController()
     pickerController.maxSelectableCount = maxSelectableCount

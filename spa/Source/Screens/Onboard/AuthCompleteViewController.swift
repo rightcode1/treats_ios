@@ -25,7 +25,7 @@ class AuthCompleteViewController: BaseViewController {
     switch type {
     case .register:
       titleLabel.text = "회원가입 완료!"
-      descriptionLabel.text = "스파 설렉션에서 다양한 스파를 경험하세요."
+      descriptionLabel.text = "트릿에서 다양한 스파를 경험하세요."
     case .resetPassword:
       titleLabel.text = "비밀번호 변경 완료!"
       descriptionLabel.text = "지금 바로 아름다움을 경험해 보세요!"

@@ -23,7 +23,7 @@ class WatiCompleteViewController: BaseViewController{
       .bind(onNext: { [weak self] in
         guard let self = self else { return }
         let vc = (self.tabBarController?.viewControllers?.first as! UINavigationController).viewControllers.first as! HomeViewController
-        vc.shouldGoOrderHistory = true
+        vc.shouldGoWaitOrderHistory = true
         self.tabBarController?.selectedIndex = 0
         self.navigationController?.popToRootViewController(animated: false)
       })

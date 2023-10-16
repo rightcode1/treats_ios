@@ -53,6 +53,7 @@ class StoreADViewController: BaseViewController, StoreCellDelegate, UnlikeStoreP
   @IBOutlet weak var tableView: UITableView!
   @IBOutlet weak var goStoreButton: UIButton!
   @IBOutlet var goStoreView: UIView!
+  @IBOutlet weak var storeTitleLabel: UILabel!
   
   var selectedDate = Date()
   var selectedBedCount = 1
@@ -64,14 +65,10 @@ class StoreADViewController: BaseViewController, StoreCellDelegate, UnlikeStoreP
   override func viewDidLoad() {
     super.viewDidLoad()
     self.titleLabel.text = advertisement.name
+    self.storeTitleLabel.text = advertisement.storeTitle
     
     tableView.register(UINib(nibName: "StoreCell", bundle: nil), forCellReuseIdentifier: "cell")
 
-//    tableView.tableFooterView?.frame.size.height = advertisement.stores.count == 1 ? 76 : 0
-//    goStoreView.isHidden = true
-//    if (advertisement.stores ?? []).count == 1 {
-//      goStoreView.isHidden = false
-//    } else
     if (self.advertisement.stores ?? []).count > 1 {
       self.goStoreView.isHidden = true
     }else{

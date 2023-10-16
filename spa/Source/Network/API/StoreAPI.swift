@@ -176,6 +176,8 @@ struct Store: Codable {
   var schedules: [Schedule]?
   var isCoupleRoom: Bool
   var notice: [StoreNotice]?
+  var serviceStart: String
+  var serviceEnd: String
   
   struct Info: Codable {
     var image: String?
@@ -265,7 +267,7 @@ struct Category: Codable {
   var name: String
   var image: String?
   var parentId: Int?
-  var children: [Category]?
+//  var children: [Category]?
   var isParent: Bool?
 }
 

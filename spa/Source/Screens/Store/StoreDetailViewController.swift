@@ -74,6 +74,7 @@ class StoreDetailViewController: BaseViewController{
   var liked = false
   
   var bedList = [Bed]()
+  
   var timeList = [ReservationTime](){
     didSet{
       if timeList.isEmpty{
@@ -83,6 +84,9 @@ class StoreDetailViewController: BaseViewController{
       }
     }
   }
+  var startTime = Date()
+  var endTime = Date()
+  
   let menuList = ["상품", "정보", "리뷰", "공지"]
   
   var imageList = [String]()
@@ -116,7 +120,6 @@ class StoreDetailViewController: BaseViewController{
   var isRoom = false
   var agreemenst: String = ""
   var safariViewController : SFSafariViewController? // to keep instance
-
   var noticeList = [StoreNotice]()
   
   override func viewDidLoad() {
@@ -152,7 +155,6 @@ class StoreDetailViewController: BaseViewController{
     selectedDateLabel.text = selectedDate.MMddEKR
     selectedBedCountLabel.text = "\(selectedBedCount)명"
     selectedTimeLabel.text = selectedTime.ahmm
-    
     
     bindInput()
   }
@@ -205,6 +207,8 @@ class StoreDetailViewController: BaseViewController{
         vc.selectedBedCount = self.selectedBedCount
         vc.storeId = self.storeId
         vc.selectedTime = self.selectedTime
+        vc.startTime  = self.startTime
+        vc.endTime = self.endTime
         self.present(vc, animated: true)
       })
       .disposed(by: disposeBag)
@@ -320,7 +324,10 @@ class StoreDetailViewController: BaseViewController{
         self.chatRoomId = response.chatRoomId ?? 0
         DataHelper<Any>.pushRecentStores(response)
         self.couponButtonLabel.text = "\(response.name) 쿠폰 다운받기"
-        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "HH:mm"
+        self.startTime = dateFormatter.date(from: response.serviceStart) ?? Date()
+        self.endTime = dateFormatter.date(from: response.serviceEnd) ?? Date()
         if (response.coupons ?? []).isEmpty {
           self.couponView.isHidden = true
           self.tableView.tableHeaderView?.frame.size.height = UIScreen.main.bounds.width + 385 - 110
@@ -415,6 +422,14 @@ class StoreDetailViewController: BaseViewController{
         self.timeList = dateList.map({ ReservationTime(date: $0, bedCount: 0) })
         self.timeList = self.timeList.filter({$0.date >= self.selectedTime})
         
+        let hourCalendar = Calendar.current
+        let startHourMinute = calendar.dateComponents([.hour, .minute], from: self.startTime)
+        let endHourMinute = calendar.dateComponents([.hour, .minute], from: self.endTime)
+
+        self.timeList = self.timeList.filter { reservationTime in
+          let reservationHourMinute = calendar.dateComponents([.hour, .minute], from: reservationTime.date)
+          return self.compareDateComponents(lhs: reservationHourMinute, rhs: startHourMinute) && self.compareDateComponents(lhs: endHourMinute, rhs: reservationHourMinute)
+        }
         response.data.forEach { bed in
           (bed.schedules ?? []).forEach { schedule in
             let date = Date.dateFromISO8601String(schedule.date)!
@@ -489,6 +504,8 @@ class StoreDetailViewController: BaseViewController{
       })
       .disposed(by: disposeBag)
   }
+  
+  
   
   
   func getReviewList(_ refresh: Bool = true) {
@@ -971,7 +988,7 @@ extension StoreDetailViewController: UICollectionViewDataSource, UICollectionVie
         self.selectedDate = timeList[indexPath.row].date
         let vc = UIStoryboard(name: "Mypage", bundle: nil).instantiateViewController(withIdentifier: "CommonPopup") as! CommonDialog
         vc.titleString = "해당 시간은 예약이 불가능합니다.\n예약 취소시 대기 알림을 받으시겠습니까?"
-        vc.yesTitle = "대기 예약"
+        vc.yesTitle = "줄서기 예약"
           vc.delegate = self
           self.present(vc, animated: false)
       }
@@ -1004,7 +1021,6 @@ extension StoreDetailViewController: UICollectionViewDataSource, UICollectionVie
 
       tableView.reloadData()
     }
-
     collectionView.reloadData()
   }
 
@@ -1039,6 +1055,7 @@ extension StoreDetailViewController: storeEditProtocol {
     navigationController?.pushViewController(vc, animated: true)
   }
 }
+
 extension StoreDetailViewController: SelectOptionDelegate {
   func didSelectOptions(_ selectedOptionList: [(Store.Option, Int)]) {
     guard let product = selectedProduct else { return }
@@ -1074,6 +1091,7 @@ extension StoreDetailViewController: ProductCategoryCellDelegate {
     }
   }
 }
+
 extension StoreDetailViewController : KakaoSharePopupDelegate{
   func didTapShare() {
     guard let store = self.store else { return }
@@ -1174,7 +1192,6 @@ extension StoreDetailViewController: CommonDialogDelegate{
       }, onFailure: { error in
         self.dismissHUD()
       }, onDisposed: {
-
       })
       .disposed(by: self.disposeBag)
   }

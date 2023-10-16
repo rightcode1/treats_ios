@@ -182,7 +182,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
-                                        <color key="backgroundColor" red="0.93725490196078431" green="0.94901960784313721" blue="0.97254901960784312" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstItem="Tom-rW-AoS" firstAttribute="centerY" secondItem="ZeT-FZ-8lM" secondAttribute="centerY" id="NS0-ls-BSc"/>
                                             <constraint firstAttribute="height" constant="34" id="SUR-C3-kkq"/>
@@ -197,7 +197,7 @@
                                                 <real key="value" value="2"/>
                                             </userDefinedRuntimeAttribute>
                                             <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                                <color key="value" red="0.96862745098039216" green="0.97254901960784312" blue="0.98039215686274506" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="value" red="0.8901960784313725" green="0.90196078431372551" blue="0.92549019607843142" alpha="1" colorSpace="calibratedRGB"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                     </view>
@@ -1363,10 +1363,8 @@
                                                                 <outlet property="delegate" destination="wsF-0t-Td4" id="KO7-9g-JCa"/>
                                                             </connections>
                                                         </collectionView>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zG1-F3-4Wk">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="예약 마감된 시간을 클릭시, 줄서기 예약 알림을 받을 수 있습니다" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zG1-F3-4Wk">
                                                             <rect key="frame" x="20" y="97" width="352" height="14.333333333333329"/>
-                                                            <string key="text">예약 마감된 시간을 클릭시, 대기 예약 알림을 받을 수 있습니다
-로 넣으면 될가요?</string>
                                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
@@ -3037,8 +3035,8 @@ IAo
                                                     <rect key="frame" x="117.66666666666667" y="18.666666666666668" width="18.000000000000014" height="18.000000000000004"/>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5hQ-86-VCu">
-                                                    <rect key="frame" x="139.66666666666666" y="21.666666666666668" width="6.6666666666666572" height="12.000000000000004"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                                    <rect key="frame" x="139.66666666666666" y="20.333333333333332" width="7.6666666666666572" height="14.333333333333332"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" red="0.47450980390000003" green="0.47450980390000003" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -3046,7 +3044,7 @@ IAo
                                                     <rect key="frame" x="70" y="45" width="298" height="0.0"/>
                                                     <string key="text">정말 힐링되었어요~ 요즘 어깨가 뭉쳤는데 많이 풀어졌
 습니다.</string>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -3054,10 +3052,10 @@ IAo
                                                     <rect key="frame" x="70" y="55" width="302" height="346"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TD1-qz-mGq">
-                                                            <rect key="frame" x="0.0" y="0.0" width="302" height="211"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="302" height="208"/>
                                                             <subviews>
                                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BL3-DW-XYq" customClass="FSPagerView" customModule="FSPagerView">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="302" height="211"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="302" height="208"/>
                                                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                                     <userDefinedRuntimeAttributes>
                                                                         <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -3066,7 +3064,7 @@ IAo
                                                                     </userDefinedRuntimeAttributes>
                                                                 </view>
                                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qtz-PZ-0Wt">
-                                                                    <rect key="frame" x="258.66666666666669" y="179" width="23.333333333333314" height="22"/>
+                                                                    <rect key="frame" x="258.66666666666669" y="176" width="23.333333333333314" height="22"/>
                                                                     <subviews>
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1/1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XIQ-up-fd9">
                                                                             <rect key="frame" x="5.0000000000000009" y="5" width="13.333333333333336" height="12"/>
@@ -3101,19 +3099,19 @@ IAo
                                                             </constraints>
                                                         </view>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LE4-Ws-VDi">
-                                                            <rect key="frame" x="0.0" y="221" width="302" height="30"/>
+                                                            <rect key="frame" x="0.0" y="218" width="302" height="30"/>
                                                             <subviews>
                                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7YW-pU-x1p">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="51" height="30"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="60" height="30"/>
                                                                     <subviews>
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fpJ-uZ-dIh">
-                                                                            <rect key="frame" x="12" y="0.0" width="27" height="30"/>
-                                                                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="10"/>
+                                                                            <rect key="frame" x="12" y="0.0" width="36" height="30"/>
+                                                                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
                                                                             <color key="textColor" red="0.13333333333333333" green="0.13333333333333333" blue="0.13333333333333333" alpha="1" colorSpace="deviceRGB"/>
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
                                                                     </subviews>
-                                                                    <color key="backgroundColor" red="0.96862745098039216" green="0.97254901960784312" blue="0.98039215686274506" alpha="1" colorSpace="calibratedRGB"/>
+                                                                    <color key="backgroundColor" red="0.93725490196078431" green="0.94901960784313721" blue="0.97254901960784312" alpha="1" colorSpace="calibratedRGB"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="trailing" secondItem="fpJ-uZ-dIh" secondAttribute="trailing" constant="12" id="SzX-rL-aJb"/>
                                                                         <constraint firstAttribute="bottom" secondItem="fpJ-uZ-dIh" secondAttribute="bottom" id="ZQw-jv-zfO"/>
@@ -3136,11 +3134,11 @@ IAo
                                                             </constraints>
                                                         </view>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2022.08.20" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ced-kx-4c9">
-                                                            <rect key="frame" x="0.0" y="261" width="55.666666666666664" height="12"/>
+                                                            <rect key="frame" x="0.0" y="258" width="65.333333333333329" height="15"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="height" constant="12" id="H9m-G1-zMb"/>
+                                                                <constraint firstAttribute="height" constant="15" id="H9m-G1-zMb"/>
                                                             </constraints>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                             <color key="textColor" red="0.77647058820000003" green="0.77647058820000003" blue="0.77647058820000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
@@ -3166,7 +3164,7 @@ IAo
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
                                                                     </subviews>
-                                                                    <color key="backgroundColor" red="0.96862745100000003" green="0.97254901959999995" blue="0.98039215690000003" alpha="1" colorSpace="calibratedRGB"/>
+                                                                    <color key="backgroundColor" red="0.93725490196078431" green="0.94901960784313721" blue="0.97254901960784312" alpha="1" colorSpace="calibratedRGB"/>
                                                                     <constraints>
                                                                         <constraint firstItem="n8I-I9-24E" firstAttribute="top" secondItem="gSp-Af-y0Y" secondAttribute="top" constant="5" id="G91-kJ-ZQj"/>
                                                                         <constraint firstAttribute="trailing" secondItem="n8I-I9-24E" secondAttribute="trailing" constant="12" id="InS-Tm-UhE"/>
@@ -3203,7 +3201,7 @@ IAo
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="15" id="ngS-8t-YdN"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="12"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -7156,7 +7154,7 @@ IAo
                                                                                     </constraints>
                                                                                     <userDefinedRuntimeAttributes>
                                                                                         <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                                                                            <color key="value" red="0.58823531870000001" green="0.8078432083" blue="0.78823530669999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                                                            <color key="value" red="0.58823529411764708" green="0.80784313725490198" blue="0.78823529411764703" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                                                         </userDefinedRuntimeAttribute>
                                                                                         <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
                                                                                             <real key="value" value="5"/>
@@ -7652,8 +7650,8 @@ IAo
                                             <action selector="dismissPress" destination="1G7-gz-WR6" eventType="touchUpInside" id="PDm-cI-Odf"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="대기예약" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="erG-Ho-Fvq">
-                                        <rect key="frame" x="19.999999999999996" y="15.333333333333334" width="55.666666666666657" height="19.333333333333329"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="줄서기 예약" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="erG-Ho-Fvq">
+                                        <rect key="frame" x="20" y="15.333333333333334" width="73.333333333333329" height="19.333333333333329"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -8098,8 +8096,8 @@ IAo
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icCompletePayment" translatesAutoresizingMaskIntoConstraints="NO" id="13L-5y-ly4">
                                                 <rect key="frame" x="154.66666666666666" y="80" width="81" height="92"/>
                                             </imageView>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="대기예약이 완료되면 확정됩니다." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l0z-bm-CXC">
-                                                <rect key="frame" x="66.666666666666686" y="187" width="257" height="29"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="줄서기 예약이 완료되면 확정됩니다." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l0z-bm-CXC">
+                                                <rect key="frame" x="55.666666666666657" y="187" width="279" height="29"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="29" id="Cs4-KI-EHy"/>
                                                 </constraints>
@@ -8107,8 +8105,8 @@ IAo
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="대기예약이 완료되었습니다." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DY1-qu-8iq">
-                                                <rect key="frame" x="123.66666666666667" y="220" width="142.66666666666663" height="15.666666666666657"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="줄서기 예약이 완료되었습니다." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DY1-qu-8iq">
+                                                <rect key="frame" x="116.33333333333333" y="220" width="157.33333333333337" height="15.666666666666657"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                                                 <color key="textColor" red="0.47450980390000003" green="0.47450980390000003" blue="0.47450980390000003" alpha="1" colorSpace="deviceRGB"/>
                                                 <nil key="highlightedColor"/>

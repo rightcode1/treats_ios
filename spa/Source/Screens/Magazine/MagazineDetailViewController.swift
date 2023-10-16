@@ -12,13 +12,15 @@ import RxSwift
 class MagazineDetailViewController: BaseViewController {
   @IBOutlet var tableView: UITableView!
 
+  @IBOutlet var titleLabel: UILabel!
+  
   var magazine: Journal!
   var imageList = [UIImage]()
   var allImageList = [String]()
 
   override func viewDidLoad() {
     super.viewDidLoad()
-
+    titleLabel.text = magazine.title
     tableView.register(UINib(nibName: "JournalCell", bundle: nil), forCellReuseIdentifier: "cell")
     convertImagesToUIImages()
   }
