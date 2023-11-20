@@ -26,6 +26,8 @@ class OrderDetailViewController: BaseViewController {
   @IBOutlet var productPriceLabel: UILabel!
   @IBOutlet var totalProductPriceLabel: UILabel!
 
+  
+  
   @IBOutlet weak var optionTableView: UITableView!
   @IBOutlet weak var optionTableViewHeight: NSLayoutConstraint!
 
@@ -272,13 +274,12 @@ class OrderDetailViewController: BaseViewController {
 
     var totalAmount = order.productAmount * order.bedCount
     order.options.forEach { option in
-      totalAmount += option.quantity * option.option.price
+      totalAmount += option.quantity * (option.option?.price ?? 0)
     }
 
     optionAmountLabel.text = totalAmount.formattedDecimalString() + "원"
 
     canceledView.isHidden = order.cancelledUserMemo != nil ? false : true
-    refundView.isHidden = true
   }
 }
 
@@ -297,8 +298,8 @@ extension OrderDetailViewController: UITableViewDataSource, UITableViewDelegate 
       let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
       let option = options[indexPath.row]
 
-      (cell.viewWithTag(1) as! UILabel).text = "\(option.option.name) /\(option.quantity)개"
-      (cell.viewWithTag(2) as! UILabel).text = "\((option.option.price*option.quantity).formattedDecimalString())원"
+      (cell.viewWithTag(1) as! UILabel).text = "\(option.option?.name) /\(option.quantity)개"
+      (cell.viewWithTag(2) as! UILabel).text = "\(((option.option?.price ?? 0)*option.quantity).formattedDecimalString())원"
 
       return cell
     }

@@ -67,6 +67,7 @@ class SplashViewController: BaseViewController {
         .map(CheckAppVersionResponse.self)
         .subscribe(onSuccess: { response in
           print(response)
+          DataHelper.set(response.isHidden, forKey: .snsIsLogin)
           let version: Int = Int(self.versionNumber!) ?? 0
           if version < response.ios {
             let vc = UIStoryboard.init(name: "Onboard", bundle: nil).instantiateViewController(withIdentifier: "UpdateViewController")

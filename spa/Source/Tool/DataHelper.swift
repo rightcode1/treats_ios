@@ -9,6 +9,7 @@ class DataHelper<T> {
     case profileImage = "profileImage"
     case email = "email"
     case nickname = "nickname"
+    case snsIsLogin = "snsIsLogin"
 
     case accessToken = "accessToken"
     case pushToken = "pushToken"
@@ -87,6 +88,10 @@ class DataHelper<T> {
 }
 
 class DataHelperTool {
+  static var snsIsLogin: Bool? {
+    guard let snsIsLogin = DataHelper<Bool>.value(forKey: .snsIsLogin) else { return nil }
+    return snsIsLogin
+  }
   static var pushToken: String? {
     guard let pushToken = DataHelper<String>.value(forKey: .pushToken) else { return nil }
     return pushToken

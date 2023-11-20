@@ -63,7 +63,7 @@ extension UserSupportViewController: UITableViewDataSource, UITableViewDelegate 
     let userSupport = userSupportList[indexPath.row]
 
     (cell.viewWithTag(1) as! UILabel).text = userSupport.answered ? "답변완료" : "미답변"
-    (cell.viewWithTag(1) as! UILabel).textColor = userSupport.answered ? UIColor(hex: "#85d0c9") : UIColor(hex: "#ff7e7e")
+    (cell.viewWithTag(1) as! UILabel).textColor = userSupport.answered ? UIColor(hex: "#1db0ab") : UIColor(hex: "#e96c68")
 
     (cell.viewWithTag(2) as! UILabel).text = userSupport.title
     (cell.viewWithTag(3) as! UILabel).text = Date.dateFromISO8601String(userSupport.createdAt)!.yyyyMMddDot

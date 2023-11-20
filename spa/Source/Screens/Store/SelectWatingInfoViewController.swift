@@ -18,7 +18,10 @@ class SelectWatingInfoViewController: BaseViewController {
   @IBOutlet weak var bedCountCollectionView: UICollectionView!
 
   @IBOutlet weak var timeCollectionView: UICollectionView!
-
+  
+  @IBOutlet weak var previousMothButton: UIImageView!
+  @IBOutlet weak var nextMonthButton: UIImageView!
+  
   @IBOutlet weak var applyButton: UIButton!
 
   weak var delegate: SelectStoreInfoDelegate?
@@ -51,7 +54,6 @@ class SelectWatingInfoViewController: BaseViewController {
           count: self.selectedBedCount,
           storeId: self.storeId
         )
-
         self.showHUD()
         APIService.shared.storeAPI.rx.request(.postWating(param: param))
           .filterSuccessfulStatusCodes()
@@ -65,6 +67,17 @@ class SelectWatingInfoViewController: BaseViewController {
 
           })
           .disposed(by: self.disposeBag)
+      })
+      .disposed(by: disposeBag)
+    previousMothButton.rx.tapGesture().when(.recognized)
+      .bind(onNext: { _ in
+        self.calendarView.scrollToSegment(.previous)
+      })
+      .disposed(by: disposeBag)
+    
+    nextMonthButton.rx.tapGesture().when(.recognized)
+      .bind(onNext: { _ in
+        self.calendarView.scrollToSegment(.next)
       })
       .disposed(by: disposeBag)
   }
@@ -144,7 +157,7 @@ class SelectWatingInfoViewController: BaseViewController {
         
         if let time = self.timeList.filter({ $0.date > Date() }).first {
           if let index = self.timeList.firstIndex(where: { $0.date == time.date }) {
-            self.timeCollectionView.scrollToItem(at: IndexPath(row: index, section: 0), at: .left, animated: false)
+            self.timeCollectionView.scrollToItem(at: IndexPath(row: index, section: 0), at: .centeredHorizontally, animated: false)
           }
         }
       }, onFailure: { error in

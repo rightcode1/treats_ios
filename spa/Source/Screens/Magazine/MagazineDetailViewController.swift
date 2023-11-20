@@ -87,11 +87,10 @@ extension MagazineDetailViewController: UITableViewDataSource, UITableViewDelega
   }
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! JournalCell
+    cell.contentImageView.image = imageList[indexPath.row]
     if imageList[indexPath.row] == UIImage(){
-      cell.contentImageView.isHidden = true
+      cell.contentImageHeightConstraint.constant = 10
     }else{
-      cell.contentImageView.isHidden = false
-      cell.contentImageView.image = imageList[indexPath.row]
       cell.contentImageHeightConstraint.constant = imageList[indexPath.row].size.height
     }
     

@@ -18,6 +18,9 @@ class SelectStoreInfoViewController: BaseViewController {
   @IBOutlet weak var bedCountCollectionView: UICollectionView!
   @IBOutlet weak var timeCollectionView: UICollectionView!
   
+  @IBOutlet weak var previousMothButton: UIImageView!
+  @IBOutlet weak var nextMonthButton: UIImageView!
+  
   @IBOutlet weak var applyButton: UIButton!
   
   @IBOutlet var coupleView: UIView!
@@ -79,6 +82,18 @@ class SelectStoreInfoViewController: BaseViewController {
         self.isCouple = false
       })
       .disposed(by: disposeBag)
+    
+    previousMothButton.rx.tapGesture().when(.recognized)
+      .bind(onNext: { _ in
+        self.calendarView.scrollToSegment(.previous)
+      })
+      .disposed(by: disposeBag)
+    
+    nextMonthButton.rx.tapGesture().when(.recognized)
+      .bind(onNext: { _ in
+        self.calendarView.scrollToSegment(.next)
+      })
+      .disposed(by: disposeBag)
   }
   func getSchedule() {
     APIService.shared.storeAPI.rx.request(.getStoreSchedule(storeId: storeId!, date: selectedDate.yyyyMMdd))
@@ -137,7 +152,7 @@ class SelectStoreInfoViewController: BaseViewController {
         
         if let time = self.timeList2.filter({ $0.date > Date() }).first {
           if let index = self.timeList2.firstIndex(where: { $0.date == time.date }) {
-            self.timeCollectionView.scrollToItem(at: IndexPath(row: index, section: 0), at: .left, animated: false)
+            self.timeCollectionView.scrollToItem(at: IndexPath(row: index, section: 0), at: .centeredHorizontally, animated: false)
           }
         }
       }, onFailure: { error in
@@ -270,11 +285,33 @@ extension SelectStoreInfoViewController: UICollectionViewDataSource, UICollectio
         getSchedule()
       }
     } else {
-      if storeId != nil{
-        selectedTime = timeList2[indexPath.item].date
-      }else{
-        selectedTime = timeList[indexPath.item]
+    if storeId != nil{
+          let currentTime = Date() // 현재 시간
+          let oneHourLater = currentTime.addingTimeInterval(3600) // 현재 시간으로부터 1시간 뒤의 시간
+          let oneHourTenLater = currentTime.addingTimeInterval(4200) // 현재 시간으로부터 1시간 10분 뒤의 시간
+          if self.timeList2[indexPath.item].date >= oneHourLater && self.timeList2[indexPath.item].date <= oneHourTenLater{
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "hurryUpPopup") as! OrderOneHourCautionView
+            self.present(vc, animated: true)
+          } else  if self.timeList2[indexPath.item].date < oneHourLater {
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "noResevationPopup") as! NoOrderOneHourView
+            self.present(vc, animated: true)
+            return
+          }
+      selectedTime = timeList2[indexPath.item].date
+    }else{
+      let currentTime = Date() // 현재 시간
+      let oneHourLater = currentTime.addingTimeInterval(3600) // 현재 시간으로부터 1시간 뒤의 시간
+      let oneHourTenLater = currentTime.addingTimeInterval(4200) // 현재 시간으로부터 1시간 10분 뒤의 시간
+      if self.timeList[indexPath.item] >= oneHourLater && self.timeList[indexPath.item] <= oneHourTenLater{
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "hurryUpPopup") as! OrderOneHourCautionView
+        self.present(vc, animated: true)
+      } else  if self.timeList[indexPath.item] < oneHourLater {
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "noResevationPopup") as! NoOrderOneHourView
+        self.present(vc, animated: true)
+        return
       }
+      selectedTime = timeList[indexPath.item]
+    }
     }
     collectionView.reloadData()
   }

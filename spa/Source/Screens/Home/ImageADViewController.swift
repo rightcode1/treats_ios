@@ -14,6 +14,10 @@ class ImageADViewController: BaseViewController {
   @IBOutlet var thumbnailImageViewHeight: NSLayoutConstraint!
   
   var advertisement: Advertisement!
+  
+  override func viewWillAppear(_ animated: Bool) {
+    self.showHUD()
+  }
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -25,6 +29,7 @@ class ImageADViewController: BaseViewController {
           let image = image.image.resizeToWidth(newWidth: UIScreen.main.bounds.width)
           self.thumbnailImageViewHeight.constant = image.size.height
           self.imageView.image = image
+          self.dismissHUD()
         case .failure(let error):
           log.error(error)
           break

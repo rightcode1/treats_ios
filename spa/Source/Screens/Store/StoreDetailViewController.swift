@@ -143,7 +143,7 @@ class StoreDetailViewController: BaseViewController{
     
     couponView.isHidden = true
     tableView.tableFooterView?.frame.size.height = 0
-    tableView.tableHeaderView?.frame.size.height = UIScreen.main.bounds.width + 383 - 105
+    tableView.tableHeaderView?.frame.size.height =  UIScreen.main.bounds.width + 372 - 100
     couponButtonIcon.isHidden = true
     
     tableView.register(UINib(nibName: "ProductCategoryCell", bundle: nil), forCellReuseIdentifier: "productCategoryCell")
@@ -331,11 +331,11 @@ class StoreDetailViewController: BaseViewController{
         self.endTime = dateFormatter.date(from: response.serviceEnd) ?? Date()
         if (response.coupons ?? []).isEmpty {
           self.couponView.isHidden = true
-          self.tableView.tableHeaderView?.frame.size.height = UIScreen.main.bounds.width + 385 - 105
+          self.tableView.tableHeaderView?.frame.size.height = UIScreen.main.bounds.width + 372 - 100
         } else {
           self.couponView.isHidden = false
           self.couponButtonIcon.isHidden = false
-          self.tableView.tableHeaderView?.frame.size.height = UIScreen.main.bounds.width + 385
+          self.tableView.tableHeaderView?.frame.size.height = UIScreen.main.bounds.width + 372
         }
         self.downloadCouponIdList = response.downloadCouponIdList ?? []
         self.dismissHUD()
@@ -456,7 +456,7 @@ class StoreDetailViewController: BaseViewController{
         
         if let time = self.timeList.filter({ $0.date > Date() }).first {
           if let index = self.timeList.firstIndex(where: { $0.date == time.date }) {
-            self.scheduleCollectionView.scrollToItem(at: IndexPath(row: index, section: 0), at: .left, animated: false)
+            self.scheduleCollectionView.scrollToItem(at: IndexPath(row: index, section: 0), at: .centeredHorizontally, animated: false)
           }
         }
       }, onFailure: { error in

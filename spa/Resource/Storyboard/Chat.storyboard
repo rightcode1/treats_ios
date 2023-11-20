@@ -12,7 +12,7 @@
         <!--채팅내역-->
         <scene sceneID="s0d-6b-0kx">
             <objects>
-                <viewController storyboardIdentifier="ChatVC" hidesBottomBarWhenPushed="YES" id="Y6W-OH-hqX" customClass="ChatVC" customModule="spa" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ChatVC" hidesBottomBarWhenPushed="YES" id="Y6W-OH-hqX" customClass="ChatVC" customModule="Treat" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -140,7 +140,7 @@
         <!--채팅상세-->
         <scene sceneID="BQk-BV-rkw">
             <objects>
-                <viewController storyboardIdentifier="ChatRoomVC" id="8r6-Tx-TLS" customClass="ChatRoomVC" customModule="spa" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ChatRoomVC" id="8r6-Tx-TLS" customClass="ChatRoomVC" customModule="Treat" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="dZe-bS-2XO">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -152,6 +152,13 @@
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="100"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="r7X-yU-O7U">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="1"/>
+                                            <color key="backgroundColor" red="0.92941176469999998" green="0.92941176469999998" blue="0.92941176469999998" alpha="1" colorSpace="calibratedRGB"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="1" id="dp3-IU-KNt"/>
+                                            </constraints>
+                                        </view>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bas-99-r4m">
                                             <rect key="frame" x="20" y="20" width="374" height="60"/>
                                             <color key="backgroundColor" red="0.90588235859999999" green="0.91764706370000004" blue="0.93725490570000003" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -170,14 +177,17 @@
                                     </subviews>
                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     <constraints>
+                                        <constraint firstItem="r7X-yU-O7U" firstAttribute="leading" secondItem="iMU-Wt-01s" secondAttribute="leading" id="3ZV-lz-as9"/>
                                         <constraint firstItem="bas-99-r4m" firstAttribute="leading" secondItem="iMU-Wt-01s" secondAttribute="leading" constant="20" id="A7x-mF-Yln"/>
+                                        <constraint firstItem="r7X-yU-O7U" firstAttribute="top" secondItem="iMU-Wt-01s" secondAttribute="top" id="CHO-eg-IFZ"/>
                                         <constraint firstItem="bas-99-r4m" firstAttribute="top" secondItem="iMU-Wt-01s" secondAttribute="top" constant="20" id="KJN-2Q-OTr"/>
                                         <constraint firstAttribute="trailing" secondItem="bas-99-r4m" secondAttribute="trailing" constant="20" id="Ly9-T7-Zhq"/>
+                                        <constraint firstAttribute="trailing" secondItem="r7X-yU-O7U" secondAttribute="trailing" id="SVm-oG-tbC"/>
                                         <constraint firstAttribute="bottom" secondItem="bas-99-r4m" secondAttribute="bottom" constant="20" id="SWl-kv-7kQ"/>
                                     </constraints>
                                 </view>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="chatCell" rowHeight="83" id="FJa-Nd-Zfy" customClass="MessageCell" customModule="spa" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="chatCell" rowHeight="83" id="FJa-Nd-Zfy" customClass="MessageCell" customModule="Treat" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="150" width="414" height="83"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="FJa-Nd-Zfy" id="wyb-2q-4eK">
@@ -247,7 +257,7 @@
                                             <outlet property="time" destination="o5s-dy-hpA" id="WXp-j1-wxL"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="myMessageCell" rowHeight="59" id="Hit-UQ-Qcp" customClass="MyMessageCell" customModule="spa" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="myMessageCell" rowHeight="59" id="Hit-UQ-Qcp" customClass="MyMessageCell" customModule="Treat" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="233" width="414" height="59"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Hit-UQ-Qcp" id="aW3-hd-ORN">

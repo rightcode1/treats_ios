@@ -212,6 +212,7 @@ class HomeViewController: BaseViewController {
   }
 
   func setCategoryViewList() {
+    
     categoryList.enumerated().forEach { (index, category) in
       if categoryViewList.indices.contains(index) {
         let view = categoryViewList[index]

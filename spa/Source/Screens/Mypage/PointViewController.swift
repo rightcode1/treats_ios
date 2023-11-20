@@ -66,7 +66,7 @@ extension PointViewController: UITableViewDataSource, UITableViewDelegate {
 
     (cell.viewWithTag(1) as! UILabel).text = (point.point > 0 ? "적립" : "사용") + " | \((point.point < 0 ? -point.point : point.point).formattedDecimalString())"
     (cell.viewWithTag(2) as! UILabel).text = point.title
-    (cell.viewWithTag(3) as! UILabel).text = Date.dateFromISO8601String(point.createdAt)!.yyyyMMddHHmm
+    (cell.viewWithTag(3) as! UILabel).text = Date.dateFromISO8601String(point.createdAt)?.yyyyMMddHHmm
     (cell.viewWithTag(4) as! UILabel).text = point.point > 0 ? "+\(point.point.formattedDecimalString())적립" : "\(point.point.formattedDecimalString())차감"
     (cell.viewWithTag(4) as! UILabel).textColor = point.point > 0 ? UIColor(hex: "#1db0ab") : UIColor(hex: "#f76161")
 

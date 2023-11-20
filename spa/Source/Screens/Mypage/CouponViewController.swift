@@ -84,8 +84,8 @@ extension CouponViewController: UICollectionViewDataSource, UICollectionViewDele
       cell.backgroundColor = .black
       (cell.viewWithTag(1) as! UILabel).textColor = .white
     } else {
-      cell.backgroundColor = UIColor(hex: "#f7f8fa")
-      (cell.viewWithTag(1) as! UILabel).textColor = UIColor(hex: "#9298aa")
+      cell.backgroundColor = UIColor(hex: "#eff2f8")
+      (cell.viewWithTag(1) as! UILabel).textColor = UIColor(hex: "#2d2d2d")
     }
 
     return cell

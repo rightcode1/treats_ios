@@ -23,6 +23,7 @@ class LoginViewController: BaseViewController {
   @IBOutlet weak var findEmailButton: UILabel!
   @IBOutlet weak var findPasswordButton: UILabel!
 
+  @IBOutlet var loginStackView: UIStackView!
   @IBOutlet var appleLoginButton: UIImageView!
   @IBOutlet var kakaoLoginButton: UIImageView!
   @IBOutlet var naverLoginButton: UIImageView!
@@ -33,6 +34,8 @@ class LoginViewController: BaseViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     checkApp()
+    loginStackView.isHidden = DataHelperTool.snsIsLogin ?? false
+    
     GIDSignIn.sharedInstance().delegate = self
     GIDSignIn.sharedInstance().presentingViewController = self
     loginInstance?.delegate = self
@@ -161,10 +164,10 @@ class LoginViewController: BaseViewController {
       })
       .disposed(by: disposeBag)
   }
-  func snsLogin(type: SocialType,id: String) {
+  func snsLogin(type: SocialType,id: String,email: String,phone:String?,name: String?) {
     showHUD()
     print("snsLoginId: \(id)")
-    let registerRequest = SocialLoginRequest(type: type,loginId: id)
+    var registerRequest = SocialLoginRequest(type: type,phone: phone)
     APIService.shared.authAPI.rx.request(.socialLogin(param: registerRequest))
       .filterSuccessfulStatusCodes()
       .map(AuthResponse.self)
@@ -182,6 +185,7 @@ class LoginViewController: BaseViewController {
         self.dismissHUD()
         print(error.moyaError?.response?.statusCode)
         if error.moyaError?.response?.statusCode == 203{
+          registerRequest = SocialLoginRequest(type: type,phone: phone,loginId: id, name: name, email: email)
           let vc = self.storyboard?.instantiateViewController(withIdentifier: "snsregister") as! SnsJoingViewController
           vc.registRequest = registerRequest
           self.navigationController?.pushViewController(vc, animated: true)
@@ -231,16 +235,15 @@ class LoginViewController: BaseViewController {
                         
                         let name = resultJson["name"] as? String ?? ""
                         let id = resultJson["id"] as? String ?? ""
-//                        let phone = resultJson["mobile"] as! String
+                        let phone = resultJson["mobile"] as! String
+                      let remixPhone = phone.components(separatedBy: "-").joined()
 //                        let gender = resultJson["gender"] as? String ?? ""
 //                        let birthyear = resultJson["birthyear"] as? String ?? ""
 //                        let birthday = resultJson["birthday"] as? String ?? ""
 //                        let profile = resultJson["profile_image"] as? String ?? ""
-//                        let email = resultJson["email"] as? String ?? ""
+                        let email = resultJson["email"] as? String ?? ""
 //                        let nickName = resultJson["nickname"] as? String ?? ""
-                      
-                    
-                        self.snsLogin(type: .naver, id: id)
+                        self.snsLogin(type: .naver, id: id,email: email,phone: remixPhone,name: name)
                     }
                     else{
                         //실패
@@ -297,7 +300,7 @@ class LoginViewController: BaseViewController {
       }
       else {
         _ = user
-        self.snsLogin(type: .kakao, id: "\(user?.id ?? 0)")
+        self.snsLogin(type: .kakao, id: "\(user?.id ?? 0)",email: user?.kakaoAccount?.email ?? "",phone: user?.kakaoAccount?.phoneNumber,name: user?.kakaoAccount?.name)
         print("me() success.\(user)")
       }
     }
@@ -308,11 +311,15 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
         // Handle successful authorization
         if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
-            let userIdentifier = appleIDCredential.user
-            let fullName = appleIDCredential.fullName
-            let email = appleIDCredential.email
+          let userIdentifier = appleIDCredential.user
+          let fullName = appleIDCredential.fullName
+          let email = appleIDCredential.email
           
-          self.snsLogin(type: .apple, id: userIdentifier)
+           print("User ID : \(userIdentifier)")
+           print("User Email : \(email ?? "")")
+           print("User Name : \((fullName?.givenName ?? "") + (fullName?.familyName ?? ""))")
+
+          self.snsLogin(type: .apple, id: userIdentifier,email: "\(email)",phone: nil,name: "\((fullName?.givenName ?? "") + (fullName?.familyName ?? ""))")
             // Use the user identifier, full name, and email as needed
         }
     }
@@ -362,8 +369,7 @@ extension LoginViewController: GIDSignInDelegate {
             return
         }
         guard let authentication = user.authentication else { return }
-      print(user.userID)
-      self.snsLogin(type: .google, id: user.userID)
+      self.snsLogin(type: .google, id: user.userID,email: user.profile.email,phone: nil,name: user.profile.name)
         // 서버에 토큰을 보내기. 이 때 idToken, accessToken 차이에 주의할 것
     }
 }

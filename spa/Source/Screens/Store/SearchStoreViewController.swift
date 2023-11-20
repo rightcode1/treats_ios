@@ -146,7 +146,7 @@ class SearchStoreViewController: BaseViewController{
           self.reservationableButtonLabel.textColor = .black
           self.reservationable = "true"
         } else {
-          self.reservationableButton.borderColor = UIColor(hex: "#f7f8fa")
+          self.reservationableButton.borderColor = UIColor(hex: "#E3E6EC")
           self.reservationableButtonLabel.textColor = UIColor(hex: "#9298aa")
           self.reservationable = "false"
         }

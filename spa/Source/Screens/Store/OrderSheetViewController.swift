@@ -60,7 +60,8 @@ class OrderSheetViewController: BaseViewController {
 
   var orderSheet: OrderSheet?
 
-  let payMethodList = ["카드결제", "휴대폰 결제", "실시간 계좌이체"]
+  let payMethodList : [PayMethod] = [.card, .phone] //, .vbank
+  var selectPayMethod : PayMethod = .card
 
   var amount = 0
 
@@ -228,7 +229,7 @@ class OrderSheetViewController: BaseViewController {
     let point = Int(pointTextField.text!.replacingOccurrences(of: ",", with: "")) ?? 0
     let param = PostOrderRequest(
       sheetId: sheetId,
-      payMethod: .card,
+      payMethod: selectPayMethod,
       buyerEmail: orderSheet?.user.email ?? "test@test.com",
       buyerName: orderSheet?.user.name ?? "test",
       buyerTel: orderSheet?.user.phone ?? "01099596564",
@@ -250,11 +251,14 @@ class OrderSheetViewController: BaseViewController {
             merchant_uid: response.imp.merchant_uid,
             amount: String(response.imp.amount))
             .then {
-              $0.pay_method = PayMethod.card.rawValue
+              $0.pay_method = response.imp.pay_method
               $0.name = response.imp.name
               $0.buyer_email = response.imp.buyer_email
               $0.buyer_name = response.imp.buyer_name
               $0.app_scheme = Environment.urlScheme
+              if response.imp.pay_method == "phone"{
+                $0.digital = true
+              }
             }
           Iamport.shared.payment(navController: self.navigationController!, userCode: response.impAccount, iamPortRequest: request) { [weak self] response in
             guard let self = self else { return }
@@ -325,15 +329,31 @@ extension OrderSheetViewController: UICollectionViewDataSource, UICollectionView
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
 
-    cell.borderColor = indexPath.item == 0 ? .black : UIColor(hex: "#c6c6c8")
-    (cell.viewWithTag(1) as! UILabel).text = payMethodList[indexPath.item]
-    (cell.viewWithTag(1) as! UILabel).textColor = indexPath.item == 0 ? .black : UIColor(hex: "#2D2D2D")
+    cell.borderColor = payMethodList[indexPath.row] == selectPayMethod ? .black : UIColor(hex: "#c6c6c8")
+    (cell.viewWithTag(1) as! UILabel).text = payMethodList[indexPath.row].name
+    (cell.viewWithTag(1) as! UILabel).textColor = payMethodList[indexPath.row] == selectPayMethod ? .black : UIColor(hex: "#2D2D2D")
 
     return cell
   }
+  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    switch(indexPath.row){
+      case 0:
+      selectPayMethod = .card
+      break
+      case 1:
+      selectPayMethod = .phone
+      break
+      case 2:
+      selectPayMethod = .vbank
+      break
+    default:
+      break
+    }
+    collectionView.reloadData()
+  }
 
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-    let width = (UIScreen.main.bounds.width - 60) / 3
+    let width = (UIScreen.main.bounds.width - 40) / 2
     return CGSize(width: width, height: 40)
   }
 }

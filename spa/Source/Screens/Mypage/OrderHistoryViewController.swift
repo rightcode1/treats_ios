@@ -168,14 +168,8 @@ extension OrderHistoryViewController: UITableViewDataSource, UITableViewDelegate
     let order = orderList[indexPath.row]
     var prevOrder: OrderList?
 
-    if indexPath.row == 0 {
-      cell.dividerView.isHidden = true
-      cell.dateView.isHidden = false
-    } else {
-      cell.dividerView.isHidden = false
-      if orderList.indices.contains(indexPath.row - 1) {
+    if indexPath.row > 0 && orderList.count > 1{
         prevOrder = orderList[indexPath.row - 1]
-      }
     }
 
     let date = Date.dateFromISO8601String(order.createdAt)!
@@ -183,14 +177,17 @@ extension OrderHistoryViewController: UITableViewDataSource, UITableViewDelegate
 
     if let prevDate = prevDate {
       if date.year == prevDate.year && date.month == prevDate.month && date.day == prevDate.day {
+        print("\(date)  : \(prevDate)1")
         cell.dividerView.isHidden = true
         cell.dateView.isHidden = true
       } else {
+        print("\(date)  : \(prevDate)2")
         cell.dividerView.isHidden = false
         cell.dateView.isHidden = false
       }
     } else {
-      cell.dividerView.isHidden = false
+      print("\(date)  : \(prevDate)3")
+      cell.dividerView.isHidden = true
       cell.dateView.isHidden = false
     }
 

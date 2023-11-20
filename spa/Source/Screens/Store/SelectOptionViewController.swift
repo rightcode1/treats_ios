@@ -16,6 +16,8 @@ class SelectOptionViewController: BaseViewController {
   @IBOutlet weak var nextButton: UIButton!
   @IBOutlet weak var sheetView: UIView!
   @IBOutlet weak var noOptionButton: UIImageView!
+  @IBOutlet weak var optionHeight: NSLayoutConstraint!
+  @IBOutlet weak var recyclerViewHeight: NSLayoutConstraint!
   
   weak var delegate: SelectOptionDelegate?
 
@@ -23,7 +25,11 @@ class SelectOptionViewController: BaseViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-
+    print(optionList.count)
+    print(optionList.count * 41)
+    recyclerViewHeight.constant = CGFloat((optionList.count + 1) * 41)
+    print(recyclerViewHeight.constant)
+    optionHeight.constant = CGFloat(160 + recyclerViewHeight.constant)
     sheetView.layer.cornerRadius = 10
     sheetView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
 
@@ -35,6 +41,7 @@ class SelectOptionViewController: BaseViewController {
         }
       })
       .disposed(by: disposeBag)
+    
     noOptionButton.rx.tapGesture().when(.recognized)
       .bind(onNext: { [weak self] _ in
         guard let self = self else { return }

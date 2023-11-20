@@ -175,7 +175,7 @@ class StoreViewController: BaseViewController , UITabBarControllerDelegate {
           self.reservationableButtonLabel.textColor = .black
           self.reservationable = "true"
         } else {
-          self.reservationableButton.borderColor = UIColor(hex: "#f7f8fa")
+          self.reservationableButton.borderColor = UIColor(hex: "#E3E6EC")
           self.reservationableButtonLabel.textColor = UIColor(hex: "#9298aa")
           self.reservationable = "false"
         }
@@ -243,7 +243,7 @@ extension StoreViewController: UITableViewDataSource, UITableViewDelegate {
     let vc = storyboard?.instantiateViewController(withIdentifier: "storeDetail") as! StoreDetailViewController
     vc.storeId = storeList[indexPath.row].id
     vc.selectedDate = selectedDate
-    vc.selectedTime = selectedTime
+//    vc.selectedTime = selectedTime
     vc.selectedCoupleRoom = selectedCoupleRoom
     vc.selectedBedCount = selectedBedCount
     navigationController?.pushViewController(vc, animated: true)

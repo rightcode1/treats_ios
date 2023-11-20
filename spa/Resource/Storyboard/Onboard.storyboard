@@ -97,7 +97,7 @@
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="아이디" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dlb-VS-Owd">
                                 <rect key="frame" x="20" y="200" width="34" height="15.666666666666657"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -131,7 +131,7 @@
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="비밀번호" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NlM-77-pRc">
                                 <rect key="frame" x="20" y="294" width="45" height="15.666666666666686"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -181,7 +181,7 @@
                                     <fragment content="아이디">
                                         <attributes>
                                             <color key="NSColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="13" name=".AppleSDGothicNeoI-Regular"/>
+                                            <font key="NSFont" metaFont="system"/>
                                             <font key="NSOriginalFont" metaFont="system"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                             <integer key="NSUnderline" value="1"/>
@@ -198,7 +198,7 @@
                                     <fragment content="찾기">
                                         <attributes>
                                             <color key="NSColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="13" name=".AppleSDGothicNeoI-Regular"/>
+                                            <font key="NSFont" metaFont="system"/>
                                             <font key="NSOriginalFont" metaFont="system"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                             <integer key="NSUnderline" value="1"/>
@@ -296,10 +296,10 @@
                                 <rect key="frame" x="36" y="492.66666666666669" width="318" height="15"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="l9c-fv-lyJ">
-                                        <rect key="frame" x="0.0" y="0.0" width="124.33333333333333" height="15"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="124" height="15"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iA3-Mu-q7m">
-                                                <rect key="frame" x="0.0" y="7" width="124.33333333333333" height="1"/>
+                                                <rect key="frame" x="0.0" y="7" width="124" height="1"/>
                                                 <color key="backgroundColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="1" id="9Gh-72-Xrs"/>
@@ -314,26 +314,26 @@
                                         </constraints>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dMq-na-kQH">
-                                        <rect key="frame" x="129.33333333333334" y="0.0" width="59.666666666666657" height="15"/>
+                                        <rect key="frame" x="129" y="0.0" width="60" height="15"/>
                                         <attributedString key="attributedText">
                                             <fragment content="간편">
                                                 <attributes>
                                                     <color key="NSColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <font key="NSFont" size="13" name=".AppleSDGothicNeoI-Regular"/>
-                                                    <font key="NSOriginalFont" metaFont="toolTip"/>
+                                                    <font key="NSFont" metaFont="system"/>
+                                                    <font key="NSOriginalFont" usesAppearanceFont="YES"/>
                                                 </attributes>
                                             </fragment>
                                             <fragment content=" ">
                                                 <attributes>
                                                     <color key="NSColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <font key="NSFont" size="13" name=".AppleSDGothicNeoI-Regular"/>
+                                                    <font key="NSFont" metaFont="system"/>
                                                 </attributes>
                                             </fragment>
                                             <fragment content="로그인">
                                                 <attributes>
                                                     <color key="NSColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <font key="NSFont" size="13" name=".AppleSDGothicNeoI-Regular"/>
-                                                    <font key="NSOriginalFont" metaFont="toolTip"/>
+                                                    <font key="NSFont" metaFont="system"/>
+                                                    <font key="NSOriginalFont" usesAppearanceFont="YES"/>
                                                 </attributes>
                                             </fragment>
                                         </attributedString>
@@ -411,6 +411,7 @@
                         <outlet property="googleLoginButton" destination="UxO-zh-YF2" id="u6b-10-gWz"/>
                         <outlet property="kakaoLoginButton" destination="Y9v-do-Dl4" id="g9h-k5-D1x"/>
                         <outlet property="loginButton" destination="vVl-DA-VW3" id="yKm-yl-EE1"/>
+                        <outlet property="loginStackView" destination="pHa-gB-xmv" id="Jrf-P3-0vo"/>
                         <outlet property="naverLoginButton" destination="9Hh-ac-lNo" id="Zpl-2F-S3H"/>
                         <outlet property="passwordTextField" destination="tVY-cQ-l96" id="JVp-lc-WhO"/>
                         <outlet property="registerButton" destination="dlh-NQ-egV" id="K3V-m2-ak8"/>
@@ -459,10 +460,10 @@
                                 <rect key="frame" x="0.0" y="97" width="393" height="1409"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NaF-Fd-y1r">
-                                        <rect key="frame" x="0.0" y="0.0" width="393" height="1254"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="393" height="1054"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Du4-9r-Q0Y">
-                                                <rect key="frame" x="0.0" y="0.0" width="393" height="1254"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="393" height="1054"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7Vo-XG-iYo">
                                                         <rect key="frame" x="0.0" y="0.0" width="393" height="5"/>
@@ -475,8 +476,8 @@
                                                         <rect key="frame" x="0.0" y="5" width="393" height="28"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="이메일" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ttp-gZ-uG8">
-                                                                <rect key="frame" x="20" y="0.0" width="31.333333333333329" height="14.333333333333334"/>
-                                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
+                                                                <rect key="frame" x="20" y="0.0" width="34" height="15.666666666666666"/>
+                                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
@@ -600,8 +601,8 @@
                                                         <rect key="frame" x="0.0" y="123" width="393" height="28"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="비밀번호" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="51O-7Y-G7I">
-                                                                <rect key="frame" x="19.999999999999996" y="0.0" width="41.666666666666657" height="14.333333333333334"/>
-                                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
+                                                                <rect key="frame" x="20" y="0.0" width="45" height="15.666666666666666"/>
+                                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
@@ -725,8 +726,8 @@
                                                         <rect key="frame" x="0.0" y="241" width="393" height="28"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="비밀번호 확인" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yep-s5-ch1">
-                                                                <rect key="frame" x="20" y="0.0" width="65.666666666666671" height="14.333333333333334"/>
-                                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
+                                                                <rect key="frame" x="20" y="0.0" width="71" height="15.666666666666666"/>
+                                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
@@ -850,8 +851,8 @@
                                                         <rect key="frame" x="0.0" y="359" width="393" height="28"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="이름" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uEc-bk-RHI">
-                                                                <rect key="frame" x="20" y="0.0" width="21" height="14.333333333333334"/>
-                                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
+                                                                <rect key="frame" x="20" y="0.0" width="22.666666666666671" height="15.666666666666666"/>
+                                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
@@ -949,8 +950,8 @@
                                                         <rect key="frame" x="0.0" y="477" width="393" height="28"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="닉네임" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ylZ-PS-6dz">
-                                                                <rect key="frame" x="20" y="0.0" width="31.333333333333329" height="14.333333333333334"/>
-                                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
+                                                                <rect key="frame" x="20" y="0.0" width="34" height="15.666666666666666"/>
+                                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
@@ -1074,8 +1075,8 @@
                                                         <rect key="frame" x="0.0" y="595" width="393" height="28"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="휴대폰 인증" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F3n-H0-fYZ">
-                                                                <rect key="frame" x="20" y="0.0" width="55" height="14.333333333333334"/>
-                                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
+                                                                <rect key="frame" x="19.999999999999996" y="0.0" width="59.666666666666657" height="15.666666666666666"/>
+                                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
@@ -1184,8 +1185,8 @@
                                                         <rect key="frame" x="0.0" y="753" width="393" height="28"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="인증번호 입력" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NnJ-ET-hdD">
-                                                                <rect key="frame" x="20" y="0.0" width="65.666666666666671" height="14.333333333333334"/>
-                                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
+                                                                <rect key="frame" x="20" y="0.0" width="71" height="15.666666666666666"/>
+                                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
@@ -1309,8 +1310,8 @@
                                                         <rect key="frame" x="0.0" y="871" width="393" height="28"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="추천인" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="717-Pa-Zev">
-                                                                <rect key="frame" x="20" y="0.0" width="31.333333333333329" height="14.333333333333334"/>
-                                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
+                                                                <rect key="frame" x="20" y="0.0" width="34" height="15.666666666666666"/>
+                                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
@@ -1442,11 +1443,11 @@
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
-                                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="iconArrowDown" translatesAutoresizingMaskIntoConstraints="NO" id="vHx-7v-1Bt">
-                                                                <rect key="frame" x="362.66666666666669" y="7.6666666666667425" width="10.333333333333314" height="6"/>
+                                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icArrowRight" translatesAutoresizingMaskIntoConstraints="NO" id="vHx-7v-1Bt">
+                                                                <rect key="frame" x="367" y="5.3333333333332584" width="6" height="10.333333333333336"/>
                                                             </imageView>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VdL-jJ-9tD">
-                                                                <rect key="frame" x="353.66666666666669" y="-6.6666666666667425" width="28.666666666666686" height="34.333333333333336"/>
+                                                                <rect key="frame" x="355.66666666666669" y="-6.6666666666667425" width="28.666666666666686" height="34.333333333333336"/>
                                                                 <state key="normal" title="Button"/>
                                                                 <buttonConfiguration key="configuration" style="plain" title=" "/>
                                                             </button>
@@ -1464,43 +1465,8 @@
                                                             <constraint firstItem="VdL-jJ-9tD" firstAttribute="centerX" secondItem="vHx-7v-1Bt" secondAttribute="centerX" id="vdV-m2-VLd"/>
                                                         </constraints>
                                                     </view>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="afP-LQ-vHI">
-                                                        <rect key="frame" x="0.0" y="1010" width="393" height="200"/>
-                                                        <subviews>
-                                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PTX-KP-LBy">
-                                                                <rect key="frame" x="20" y="0.0" width="353" height="200"/>
-                                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                                                <string key="text">제 1조 (목적)
-이 이용약관(이하 ‘약관’이라 합니다.)(이하 ‘회사’라 합니다.)에서 
-이용고객(이하 ‘‘이용자’라 한다.)에게 제공하는 홈페이지 및 어플리케이션 허리업. ㅇㅇㅇ을 이용함에 있어 가입조건 및 이용에 관한 제반 사항과 기타 필요한 
-사항, 회원과 회사 간의 권리, 의무 및 책임사항 등 여러 사항을 구체적으로 규정함을 목적으로 합니다.
-
-제 2조 (정의)
-이 이용약관(이하 ‘약관’이라 합니다.)(이하 ‘회사’라 합니다.)에서 이용고객(이하 ‘‘이용자’라 한다.)에게 제공하는 홈페이지 및 어플리케이션 허리업. 허리업을 이용함에 있어 가입조건 및 이용에 관한 제반 사항과 기타 필요한 사항, 회원과 회사 간의 권리, 의무 및 책임사항 등 여러 사항을 구체적으로 규정함을 목적으로 합니다.
-
-제 3조
-이 이용약관(이하 ‘약관’이라 합니다.)(이하 ‘회사’라 합니다.)에서 
-이용고객(이하 ‘‘이용자’라 한다.)에게 제공하는 홈페이지 및 어플
-리케이션 허리업. 허리업을 이용함에 있어 가입조건 및 이용에 관
-한 제반 사항과 기타 필요한 
-사항, 회원과 회사 간의 권리, 의무 및 책임사항 등 여러 사항을 
-구체적으로 규정함을 목적으로 합니다.</string>
-                                                                <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                                            </textView>
-                                                        </subviews>
-                                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                                        <constraints>
-                                                            <constraint firstItem="PTX-KP-LBy" firstAttribute="top" secondItem="afP-LQ-vHI" secondAttribute="top" id="3vf-Rb-qUh"/>
-                                                            <constraint firstItem="PTX-KP-LBy" firstAttribute="leading" secondItem="afP-LQ-vHI" secondAttribute="leading" constant="20" id="F4C-4n-uDd"/>
-                                                            <constraint firstAttribute="height" constant="200" id="fp1-qf-UP6"/>
-                                                            <constraint firstAttribute="bottom" secondItem="PTX-KP-LBy" secondAttribute="bottom" id="uQv-ml-dvR"/>
-                                                            <constraint firstAttribute="trailing" secondItem="PTX-KP-LBy" secondAttribute="trailing" constant="20" id="yqJ-dZ-Ikv"/>
-                                                        </constraints>
-                                                    </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ge6-wo-sjN">
-                                                        <rect key="frame" x="0.0" y="1210" width="393" height="44"/>
+                                                        <rect key="frame" x="0.0" y="1010" width="393" height="44"/>
                                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="44" id="Gnz-gn-de0"/>
@@ -1607,7 +1573,6 @@
                         <outlet property="sendAuthCodeButtonLabel" destination="RL1-vi-fdI" id="Bcm-Qr-dPM"/>
                         <outlet property="termsPrivacyArrowIcon" destination="vHx-7v-1Bt" id="JJC-D5-ZqY"/>
                         <outlet property="termsPrivacyButton" destination="x6q-Jf-TYD" id="FxK-Ek-P7e"/>
-                        <outlet property="termsPrivacyContentView" destination="afP-LQ-vHI" id="jMi-tM-UO8"/>
                         <outlet property="termsPrivacyOpenButton" destination="VdL-jJ-9tD" id="AoM-gm-grz"/>
                     </connections>
                 </viewController>
@@ -1672,8 +1637,8 @@
                                 <rect key="frame" x="0.0" y="123" width="390" height="28"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="휴대폰 인증" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e7e-XI-AhY">
-                                        <rect key="frame" x="20" y="0.0" width="55" height="14.333333333333334"/>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
+                                        <rect key="frame" x="19.999999999999996" y="0.0" width="59.666666666666657" height="15.666666666666666"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -1807,8 +1772,8 @@
                                         <rect key="frame" x="0.0" y="20" width="390" height="28"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="인증번호 입력" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kbF-aX-Lrd">
-                                                <rect key="frame" x="20" y="0.0" width="65.666666666666671" height="14.333333333333334"/>
-                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
+                                                <rect key="frame" x="20" y="0.0" width="71" height="15.666666666666666"/>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
@@ -2104,8 +2069,8 @@
                                 <rect key="frame" x="0.0" y="223" width="390" height="28"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="휴대폰 인증" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uZX-bs-MC8">
-                                        <rect key="frame" x="20" y="0.0" width="55" height="14.333333333333334"/>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
+                                        <rect key="frame" x="19.999999999999996" y="0.0" width="59.666666666666657" height="15.666666666666666"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -2239,8 +2204,8 @@
                                         <rect key="frame" x="0.0" y="20" width="390" height="28"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="인증번호 입력" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xhb-Xq-c6w">
-                                                <rect key="frame" x="20" y="0.0" width="65.666666666666671" height="14.333333333333334"/>
-                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
+                                                <rect key="frame" x="20" y="0.0" width="71" height="15.666666666666666"/>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
@@ -2377,8 +2342,8 @@
                                 <rect key="frame" x="0.0" y="123" width="390" height="28"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="이메일" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gok-9e-Qzz">
-                                        <rect key="frame" x="20" y="0.0" width="31.333333333333329" height="14.333333333333334"/>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
+                                        <rect key="frame" x="20" y="0.0" width="34" height="15.666666666666666"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -2530,8 +2495,8 @@
                                 <rect key="frame" x="0.0" y="125" width="390" height="28"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="비밀번호" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e3a-o1-Vyd">
-                                        <rect key="frame" x="19.999999999999996" y="0.0" width="41.666666666666657" height="14.333333333333334"/>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
+                                        <rect key="frame" x="20" y="0.0" width="45" height="15.666666666666666"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -2655,8 +2620,8 @@
                                 <rect key="frame" x="0.0" y="243" width="390" height="28"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="비밀번호 확인" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SxJ-gL-9is">
-                                        <rect key="frame" x="20" y="0.0" width="65.666666666666671" height="14.333333333333334"/>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
+                                        <rect key="frame" x="20" y="0.0" width="71" height="15.666666666666666"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -2931,10 +2896,10 @@
                                 <rect key="frame" x="0.0" y="97" width="392" height="1009"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cjT-T4-17p">
-                                        <rect key="frame" x="0.0" y="0.0" width="392" height="980"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="392" height="780"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="xQp-Je-q1j">
-                                                <rect key="frame" x="0.0" y="0.0" width="392" height="980"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="392" height="780"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UZj-di-ChW">
                                                         <rect key="frame" x="0.0" y="0.0" width="392" height="5"/>
@@ -2947,8 +2912,8 @@
                                                         <rect key="frame" x="0.0" y="5" width="392" height="28"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="이메일" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tge-kW-BRJ">
-                                                                <rect key="frame" x="20" y="0.0" width="31.333333333333329" height="14.333333333333334"/>
-                                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
+                                                                <rect key="frame" x="20" y="0.0" width="34" height="15.666666666666666"/>
+                                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
@@ -3072,8 +3037,8 @@
                                                         <rect key="frame" x="0.0" y="123" width="392" height="28"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="이름" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jX2-Bw-zlf">
-                                                                <rect key="frame" x="20" y="0.0" width="21" height="14.333333333333334"/>
-                                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
+                                                                <rect key="frame" x="20" y="0.0" width="22.666666666666671" height="15.666666666666666"/>
+                                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
@@ -3171,8 +3136,8 @@
                                                         <rect key="frame" x="0.0" y="241" width="392" height="28"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="휴대폰 인증" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gzr-jW-gcg">
-                                                                <rect key="frame" x="20" y="0.0" width="55" height="14.333333333333334"/>
-                                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
+                                                                <rect key="frame" x="19.999999999999996" y="0.0" width="59.666666666666657" height="15.666666666666666"/>
+                                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
@@ -3281,8 +3246,8 @@
                                                         <rect key="frame" x="0.0" y="394" width="392" height="28"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="인증번호 입력" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8N0-cV-SOk">
-                                                                <rect key="frame" x="20" y="0.0" width="65.666666666666671" height="14.333333333333334"/>
-                                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
+                                                                <rect key="frame" x="20" y="0.0" width="71" height="15.666666666666666"/>
+                                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
@@ -3406,8 +3371,8 @@
                                                         <rect key="frame" x="0.0" y="512" width="392" height="28"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="추천인" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7vL-Bp-fiE">
-                                                                <rect key="frame" x="20" y="0.0" width="31.333333333333329" height="14.333333333333334"/>
-                                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
+                                                                <rect key="frame" x="20" y="0.0" width="34" height="15.666666666666666"/>
+                                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
@@ -3541,16 +3506,16 @@
                                                                 <rect key="frame" x="20" y="0.0" width="21" height="21"/>
                                                             </imageView>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="개인정보 처리방침" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="urp-mf-SOh">
-                                                                <rect key="frame" x="46.999999999999993" y="2.6666666666666279" width="93.333333333333314" height="15.666666666666664"/>
-                                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
+                                                                <rect key="frame" x="47.000000000000007" y="1.6666666666666288" width="107.66666666666669" height="18"/>
+                                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
-                                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="iconArrowDown" translatesAutoresizingMaskIntoConstraints="NO" id="Zig-Af-jCu">
-                                                                <rect key="frame" x="361.66666666666669" y="7.6666666666666288" width="10.333333333333314" height="6"/>
+                                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icArrowRight" translatesAutoresizingMaskIntoConstraints="NO" id="Zig-Af-jCu">
+                                                                <rect key="frame" x="366" y="5.3333333333333721" width="6" height="10.333333333333336"/>
                                                             </imageView>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kA4-SJ-OWL">
-                                                                <rect key="frame" x="352.66666666666669" y="-6.6666666666666288" width="28.666666666666686" height="34.333333333333336"/>
+                                                                <rect key="frame" x="354.66666666666669" y="-6.6666666666666288" width="28.666666666666686" height="34.333333333333336"/>
                                                                 <state key="normal" title="Button"/>
                                                                 <buttonConfiguration key="configuration" style="plain" title=" "/>
                                                             </button>
@@ -3568,50 +3533,15 @@
                                                             <constraint firstAttribute="trailing" secondItem="Zig-Af-jCu" secondAttribute="trailing" constant="20" id="zf8-ty-yiu"/>
                                                         </constraints>
                                                     </view>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ass-k3-AVH">
-                                                        <rect key="frame" x="0.0" y="666" width="392" height="200"/>
-                                                        <subviews>
-                                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dnq-GF-Xg2">
-                                                                <rect key="frame" x="20" y="0.0" width="352" height="200"/>
-                                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                                                <string key="text">제 1조 (목적)
-이 이용약관(이하 ‘약관’이라 합니다.)(이하 ‘회사’라 합니다.)에서 
-이용고객(이하 ‘‘이용자’라 한다.)에게 제공하는 홈페이지 및 어플리케이션 허리업. ㅇㅇㅇ을 이용함에 있어 가입조건 및 이용에 관한 제반 사항과 기타 필요한 
-사항, 회원과 회사 간의 권리, 의무 및 책임사항 등 여러 사항을 구체적으로 규정함을 목적으로 합니다.
-
-제 2조 (정의)
-이 이용약관(이하 ‘약관’이라 합니다.)(이하 ‘회사’라 합니다.)에서 이용고객(이하 ‘‘이용자’라 한다.)에게 제공하는 홈페이지 및 어플리케이션 허리업. 허리업을 이용함에 있어 가입조건 및 이용에 관한 제반 사항과 기타 필요한 사항, 회원과 회사 간의 권리, 의무 및 책임사항 등 여러 사항을 구체적으로 규정함을 목적으로 합니다.
-
-제 3조
-이 이용약관(이하 ‘약관’이라 합니다.)(이하 ‘회사’라 합니다.)에서 
-이용고객(이하 ‘‘이용자’라 한다.)에게 제공하는 홈페이지 및 어플
-리케이션 허리업. 허리업을 이용함에 있어 가입조건 및 이용에 관
-한 제반 사항과 기타 필요한 
-사항, 회원과 회사 간의 권리, 의무 및 책임사항 등 여러 사항을 
-구체적으로 규정함을 목적으로 합니다.</string>
-                                                                <color key="textColor" red="0.77647058820000003" green="0.77647058820000003" blue="0.77647058820000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                                            </textView>
-                                                        </subviews>
-                                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="200" id="Rcs-Ls-ChL"/>
-                                                            <constraint firstItem="Dnq-GF-Xg2" firstAttribute="leading" secondItem="ass-k3-AVH" secondAttribute="leading" constant="20" id="bhO-zf-qwI"/>
-                                                            <constraint firstAttribute="bottom" secondItem="Dnq-GF-Xg2" secondAttribute="bottom" id="gsS-lf-cnj"/>
-                                                            <constraint firstAttribute="trailing" secondItem="Dnq-GF-Xg2" secondAttribute="trailing" constant="20" id="rBx-hK-Ky5"/>
-                                                            <constraint firstItem="Dnq-GF-Xg2" firstAttribute="top" secondItem="ass-k3-AVH" secondAttribute="top" id="va4-o3-cnf"/>
-                                                        </constraints>
-                                                    </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="svc-XR-PmG">
-                                                        <rect key="frame" x="0.0" y="866" width="392" height="44"/>
+                                                        <rect key="frame" x="0.0" y="666" width="392" height="44"/>
                                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="44" id="cM9-et-zgU"/>
                                                         </constraints>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3Rn-Bh-R53">
-                                                        <rect key="frame" x="0.0" y="910" width="392" height="70"/>
+                                                        <rect key="frame" x="0.0" y="710" width="392" height="70"/>
                                                         <subviews>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7dD-3M-2oW">
                                                                 <rect key="frame" x="20" y="0.0" width="352" height="50"/>
@@ -3726,7 +3656,6 @@
                         <outlet property="sendAuthCodeButtonLabel" destination="JY5-xN-l4d" id="WFW-uV-2b2"/>
                         <outlet property="termsPrivacyArrowIcon" destination="Zig-Af-jCu" id="Rhg-Jk-dEU"/>
                         <outlet property="termsPrivacyButton" destination="lpc-XK-f0Q" id="TH8-84-5h0"/>
-                        <outlet property="termsPrivacyContentView" destination="ass-k3-AVH" id="8nk-gL-rlt"/>
                         <outlet property="termsPrivacyOpenButton" destination="kA4-SJ-OWL" id="gAJ-w0-kd7"/>
                     </connections>
                 </viewController>
@@ -3837,7 +3766,7 @@
         <image name="apple" width="42" height="42"/>
         <image name="back" width="16" height="14"/>
         <image name="google" width="42" height="42"/>
-        <image name="iconArrowDown" width="10.333333015441895" height="6"/>
+        <image name="icArrowRight" width="6" height="10.333333015441895"/>
         <image name="iconCheck14" width="14" height="14"/>
         <image name="iconCheckOff" width="21" height="21"/>
         <image name="iconWarnning14" width="14" height="14"/>

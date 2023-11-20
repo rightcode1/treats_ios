@@ -76,7 +76,7 @@ extension StoreCouponViewController: UITableViewDataSource, UITableViewDelegate 
   }
 
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-    let height = ((UIScreen.main.bounds.width - 40) / 320 * 127) + 20
+    let height = ((UIScreen.main.bounds.width - 40) / 320 * 127)
     return height
   }
 }

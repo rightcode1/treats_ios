@@ -7,6 +7,7 @@
 
 import Foundation
 import Moya
+import iamport_ios
 
 enum OrderAPI {
   case getOrderList(param: GetOrderListReqeust)
@@ -145,11 +146,6 @@ struct PostOrderRequest: Codable {
   var buyerTel: String
   var redirectUrl: String? = nil
   var point: Int = 0
-
-  enum PayMethod: String, Codable {
-    case card
-    case vBank
-  }
 }
 
 struct OrderSheet: Codable {
@@ -161,15 +157,16 @@ struct OrderSheet: Codable {
   var reservationDate: String
   var bedCount: Int
 
-  struct Option: Codable {
-    var quantity: Int
-    var id: Int
-    var price: Int
-    var order: Int
-    var storeId: Int
-    var name: String
-  }
 }
+struct Option: Codable {
+  var quantity: Int
+  var id: Int
+  var price: Int
+//  var order: Int
+//  var storeId: Int
+  var name: String
+}
+
 
 struct OrderList: Codable {
   var id: Int
@@ -263,7 +260,7 @@ struct Order: Codable {
 
   struct OptionInventory: Codable {
     var optionId: Int
-    var option: Option
+    var option: Option?
     var quantity: Int
 
     struct Option: Codable {

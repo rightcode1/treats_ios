@@ -33,7 +33,6 @@ class SnsJoingViewController: BaseViewController {
 
   @IBOutlet weak var termsPrivacyOpenButton: UIButton!
   @IBOutlet weak var termsPrivacyButton: UIImageView!
-  @IBOutlet weak var termsPrivacyContentView: UIView!
   @IBOutlet weak var termsPrivacyArrowIcon: UIImageView!
 
   @IBOutlet weak var nextButton: UIView!
@@ -72,13 +71,21 @@ class SnsJoingViewController: BaseViewController {
     authCodeCheckView.isHidden = true
     recommendWarnningView.isHidden = true
     recommendCheckView.isHidden = true
+    
+    if registRequest?.email != nil{
+      emailTextField.text = registRequest?.email
+    }
+    if registRequest?.phone != nil{
+      phoneTextField.text =  registRequest?.phone
+    }
+    if registRequest?.name != nil{
+      nameTextField.text =  registRequest?.name
+    }
+    
 
     bindInput()
     bindOutput()
 
-//    gender = .male
-//    maleButton.borderColor = .black
-//    maleButtonLabel.textColor = .black
   }
 
   override func viewWillDisappear(_ animated: Bool) {
@@ -164,14 +171,10 @@ class SnsJoingViewController: BaseViewController {
     termsPrivacyOpenButton.rx.tap
       .bind(onNext: { [weak self] in
         guard let self = self else { return }
-        self.termsPrivacyContentView.isHidden = !self.termsPrivacyContentView.isHidden
-        self.termsPrivacyArrowIcon.image = self.termsPrivacyContentView.isHidden ? UIImage(named: "iconArrowUp") : UIImage(named: "iconArrowDown")
-        if !self.termsPrivacyContentView.isHidden {
-          DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            let bottomOffset = CGPoint(x: 0, y: self.scrollView.contentSize.height - self.scrollView.bounds.height + self.scrollView.contentInset.bottom)
-            self.scrollView.setContentOffset(bottomOffset, animated: true)
-          }
-        }
+        let vc = UIStoryboard(name: "Mypage", bundle: nil).instantiateViewController(withIdentifier: "urlCommon") as! UrlCommonViewController
+        vc.url = URL(string:"https://treatapp.notion.site/0238ed9d1b7a450a91ad21682f4e6e7b?pvs=4")
+        vc.titleName = "개인정보 처리방침"
+        self.navigationController?.pushViewController(vc, animated: true)
         self.view.layoutIfNeeded()
       })
       .disposed(by: disposeBag)
